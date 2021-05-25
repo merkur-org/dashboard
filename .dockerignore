@@ -1,0 +1,9 @@
+node_modules
+build
+.github
+.editorconfig
+.eslintignore
+.eslintrc.json
+prettier.*
+README.md
+sonar-project.properties
