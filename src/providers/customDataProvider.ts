@@ -2,7 +2,7 @@ import { clear } from 'console'
 import { stringify } from 'querystring'
 import { DataProvider, fetchUtils } from 'ra-core'
 
-const CustomDataProvider = (
+const customDataProvider = (
   apiUrl: string,
   httpClient = fetchUtils.fetchJson
 ): DataProvider => ({
@@ -137,4 +137,4 @@ const CustomDataProvider = (
   }
 })
 
-export default CustomDataProvider
+export default customDataProvider
