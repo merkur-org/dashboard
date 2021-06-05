@@ -47,7 +47,9 @@ const authProvider: AuthContextData = {
 
   checkError: async error => {},
 
-  checkAuth: async () => {},
+  checkAuth: async () => {
+    return Cookie.get('token') ? Promise.resolve() : Promise.reject()
+  },
 
   logout: async () => {
     Cookie.remove('token')
@@ -56,12 +58,13 @@ const authProvider: AuthContextData = {
 
     return
   },
+
   getIdentity: async () => {
     return { id: 1 }
   },
-  // authorization
+
   getPermissions: async params => {
-    /* ... */
+    return Cookie.get('token') ? Promise.resolve() : Promise.reject()
   }
 }
 

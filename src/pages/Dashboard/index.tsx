@@ -7,10 +7,12 @@ import DeliveryPointsList from '../../components/CRUDS/DeliveryPoints/DeliveryPo
 import authProvider from '../../providers/authProvider'
 import Login from '../../pages/Login'
 
+import WithAuth from '../../components/UI/WithAuth'
+
 const Dashboard: React.FC = () => {
   return (
     <Admin
-      dataProvider={customDataProvider('http://localhost:3333')}
+      dataProvider={customDataProvider('http://localhost:3333/api')}
       authProvider={authProvider}
       loginPage={Login}
     >
@@ -21,7 +23,7 @@ const Dashboard: React.FC = () => {
         options={{ label: 'Produtos' }}
       />
       <Resource
-        name="delivery-points?state=PR"
+        name="delivery-points"
         list={DeliveryPointsList}
         options={{ label: 'Pontos de entrega' }}
       />

@@ -2,17 +2,18 @@ import { useHistory } from 'react-router-dom'
 import { ElementType, useEffect } from 'react'
 import Cookie from 'js-cookie'
 
-// impedir que o usuário entre em páginas caso ele esteja logado
-// EX: página de login e cadastro
-const WithUserLogged = (Component: ElementType) => {
+// impedir que o usuário entre em rotas caso ele NÃO esteja logado
+// EX: Página de finalização de compra
+const WithAuth = (Component: ElementType): React.FC => {
   const Wrapper = (props: any) => {
     const history = useHistory()
 
     useEffect(() => {
       const token = Cookie.get('token')
 
-      if (token) {
-        history.push('/login')
+      if (!token) {
+        console.log(history)
+        history.push('/')
       }
     }, [])
 
@@ -22,4 +23,4 @@ const WithUserLogged = (Component: ElementType) => {
   return Wrapper
 }
 
-export default WithUserLogged
+export default WithAuth

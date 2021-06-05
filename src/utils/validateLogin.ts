@@ -1,4 +1,4 @@
-import { RefObject } from 'react'
+import { RefObject, MutableRefObject } from 'react'
 import { FormHandles } from '@unform/core'
 import * as Yup from 'yup'
 
@@ -16,7 +16,7 @@ interface loginProps {
 
 const validateLogin = async (
   formData: loginProps,
-  formRef: RefObject<FormHandles>
+  formRef: MutableRefObject<FormHandles>
 ): Promise<Omit<loginProps, 'emailTab' | 'cpfTab'>> => {
   formRef.current?.setErrors({})
 

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { FormHandles } from '@unform/core'
 import { Form } from '@unform/web'
 import { useLogin } from 'react-admin'
@@ -11,9 +12,6 @@ import { useAuth } from '../../hooks/auth'
 import Button from '../../components/UI/Button'
 import Input from '../../components/UI/Input'
 import TabMenu from '../../components/UI/TabMenu'
-import withUserLogged from '../../components/UI/WithUserLogged'
-import { Error } from '../../components/UI/ErrorLabel/styles'
-import BackButton from '../../components/UI/BackButton'
 import ModalMessage from '../../components/UI/ModalMessages'
 
 import { FaCheck } from 'react-icons/fa'
@@ -27,6 +25,7 @@ import {
   ButtonContainer,
   LinksContainer
 } from './styles'
+import WithUserLogged from '../../components/UI/WithUserLogged'
 
 interface formProps {
   cpfTab: boolean
@@ -38,17 +37,16 @@ interface formProps {
 }
 
 const Login: React.FC = () => {
-  const { signIn } = useAuth()
   const login = useLogin()
   const history = useHistory()
 
   const [emailSelected, setEmailSelected] = useState(true)
   const [cpfSelected, setCpfSelected] = useState(false)
-  const [errors, setErrors] = useState(false)
+  const [errors, setErrors] = useState()
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    setErrors(true)
+    setErrors(undefined)
   }, [emailSelected, cpfSelected])
 
   const formRef = useRef<FormHandles>(null)
@@ -62,7 +60,7 @@ const Login: React.FC = () => {
         history.push('/')
       }
     } catch (err) {
-      formRef.current?.setErrors(err)
+      formRef.current.setErrors(err)
       setErrors(err)
 
       setIsLoading(false)

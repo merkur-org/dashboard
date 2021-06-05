@@ -1,6 +1,9 @@
 import { clear } from 'console'
+import { Http2ServerRequest } from 'http2'
+import Cookie from 'js-cookie'
 import { stringify } from 'querystring'
 import { DataProvider, fetchUtils } from 'ra-core'
+import api from '../services/api'
 
 const customDataProvider = (
   apiUrl: string,
@@ -48,13 +51,14 @@ const customDataProvider = (
   },
 
   create: async (resource, params) => {
-    const result = await httpClient(`${apiUrl}/${resource}`, {
-      method: 'POST',
-      body: JSON.stringify(params.data)
+    const token = Cookie.get('token')
+
+    const response = await api.post(`${apiUrl}/${resource}`, params.data, {
+      headers: { Authorization: `Bearer ${token}` }
     })
 
     return {
-      data: result.json
+      data: response.data
     }
   },
 
