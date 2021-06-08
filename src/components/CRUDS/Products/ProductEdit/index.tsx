@@ -1,19 +1,13 @@
-import {
-  Create,
-  SimpleForm,
-  TextInput,
-  SelectInput,
-  ImageInput
-} from 'react-admin'
+import { TextInput, SelectInput, Edit } from 'react-admin'
 import React from 'react'
 
 import { Form } from './styles'
 
 import { categories, units } from '../ProductsSelect'
 
-const ProductCreate: React.FC = props => {
+const ProductEdit: React.FC = props => {
   return (
-    <Create title="Adicionar novo produto" {...props}>
+    <Edit title="Adicionar novo produto" {...props}>
       <Form>
         <TextInput source="name" label="Nome" />
         <TextInput
@@ -46,8 +40,8 @@ const ProductCreate: React.FC = props => {
         />
         <TextInput source="observation" label="Observação" multiline />
       </Form>
-    </Create>
+    </Edit>
   )
 }
 
-export default ProductCreate
+export default ProductEdit

@@ -10,55 +10,59 @@ const customDataProvider = (
   httpClient = fetchUtils.fetchJson
 ): DataProvider => ({
   getList: async (resource, params) => {
+    const token = Cookie.get('token')
+
     const { page, perPage } = params.pagination
     const { order, field } = params.sort
     const filter = params.filter
 
-    const res = await httpClient(`${apiUrl}/${resource}`, {
-      method: 'GET'
+    const { data } = await api.get(`/${resource}`, {
+      headers: { Authorization: `Bearer ${token}` }
     })
 
-    const { data, total_count } = res.json
-
     return {
-      data,
-      total: total_count
+      data: data.data,
+      total: data.total_count
     }
   },
 
   getOne: async (resource, params) => {
-    const res = await httpClient(`${apiUrl}/${resource}/${params.id}`, {
-      method: 'GET'
+    const token = Cookie.get('token')
+
+    const { data } = await api.get(`/${resource}/${params.id}`, {
+      headers: { Authorization: `Bearer ${token}` }
     })
 
     return {
-      data: res.json
+      data
     }
   },
 
   getMany: async (resource, params) => {
+    const token = Cookie.get('token')
+
     const query = stringify({
       sort_by: 'fraction_buy'
     })
 
-    const res = await httpClient(`${apiUrl}/${resource}?${query}`, {
-      method: 'GET'
+    const { data } = await api.get(`/${resource}/${params.ids}`, {
+      headers: { Authorization: `Bearer ${token}` }
     })
 
     return {
-      data: res.json
+      data
     }
   },
 
   create: async (resource, params) => {
     const token = Cookie.get('token')
 
-    const response = await api.post(`${apiUrl}/${resource}`, params.data, {
+    const { data } = await api.post(`/${resource}`, params.data, {
       headers: { Authorization: `Bearer ${token}` }
     })
 
     return {
-      data: response.data
+      data
     }
   },
 
@@ -67,21 +71,21 @@ const customDataProvider = (
       sort_by: 'fraction_buy'
     })
 
-    const res = await httpClient(`${apiUrl}/${resource}?${query}`, {
+    const { data } = await api.get(`/${resource}?${query}`, {
       method: 'GET'
     })
 
-    const { total_count } = res.json
-
     return {
-      data: res.json,
-      total: total_count
+      data: data.data,
+      total: data.total_count
     }
   },
 
   delete: async (resource, params) => {
-    await httpClient(`${apiUrl}/${resource}/${params.id}`, {
-      method: 'DELETE'
+    const token = Cookie.get('token')
+
+    await api.delete(`/${resource}/${params.id}`, {
+      headers: { Authorization: `Bearer ${token}` }
     })
 
     return {
@@ -108,10 +112,10 @@ const customDataProvider = (
   },
 
   update: async (resource, params) => {
-    await httpClient(`${apiUrl}/${resource}/${params.id}`, {
-      method: 'PUT',
-      body: JSON.stringify(params.data),
-      headers: new Headers({})
+    const token = Cookie.get('token')
+
+    await api.put(`/${resource}/${params.id}`, params.data, {
+      headers: { Authorization: `Bearer ${token}` }
     })
 
     return {
