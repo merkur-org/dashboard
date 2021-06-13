@@ -94,17 +94,15 @@ const customDataProvider = (
   },
 
   deleteMany: async (resource, params) => {
-    const query = stringify({
-      filter: JSON.stringify({
-        where: {
-          id: { inq: params.ids }
-        }
-      })
-    })
+    const token = Cookie.get('token')
 
-    await httpClient(`${apiUrl}/${resource}?${query}`, {
-      method: 'DELETE'
-    })
+    await Promise.allSettled(
+      params.ids.map(id => {
+        return api.delete(`/${resource}/${id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+      })
+    )
 
     return {
       data: params.ids
