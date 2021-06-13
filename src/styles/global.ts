@@ -9,10 +9,10 @@ export default createGlobalStyle`
     box-sizing: border-box;
     text-decoration:none;
     list-style:none;
-    /* font-size:62.5%; */
   }
 
   html, button{
+    font-size: 62.5%;
     font-family: 'Roboto Slab', serif;
     font: 400 1.6rem;
     overflow-x: hidden;
@@ -37,6 +37,4 @@ export default createGlobalStyle`
     color: ${props => props.theme.colors.black};
     cursor: default;
   }
-
-
 `

@@ -60,7 +60,8 @@ const authProvider: AuthContextData = {
   },
 
   getIdentity: async () => {
-    return { id: 1 }
+    const user: User = JSON.parse(Cookie.get('user'))
+    return { id: user.id }
   },
 
   getPermissions: async params => {

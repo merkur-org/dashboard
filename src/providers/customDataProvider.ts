@@ -16,9 +16,12 @@ const customDataProvider = (
     const { order, field } = params.sort
     const filter = params.filter
 
-    const { data } = await api.get(`/${resource}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
+    const { data } = await api.get(
+      `/${resource}?page=${page}&limit=${perPage}`,
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    )
 
     return {
       data: data.data,
@@ -40,10 +43,6 @@ const customDataProvider = (
 
   getMany: async (resource, params) => {
     const token = Cookie.get('token')
-
-    const query = stringify({
-      sort_by: 'fraction_buy'
-    })
 
     const { data } = await api.get(`/${resource}/${params.ids}`, {
       headers: { Authorization: `Bearer ${token}` }
