@@ -46,22 +46,30 @@ export const Container = styled.button<ContainerProps>`
       }
     `}
 
+  box-shadow: 0 0 0 0;
+  border: 0 none;
+  outline: 0;
+  text-decoration: none;
+  cursor: pointer;
+
   color: ${({ theme }) => theme.colors.white};
   transition: background ${transitions.hover};
+  cursor: pointer;
+  font-family: 'Roboto Slab', serif;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  font-size: 1.6rem;
+  font-size: 16px;
   font-weight: bold;
 
   border: none;
   border-radius: ${border.borderRadius};
   box-shadow: ${effects.dropShadow};
-  padding: 1.6rem;
+  padding: 16px;
 
   width: 100%;
-  min-width: 22rem;
-  min-height: 4.8rem;
+  min-width: 220px;
+  min-height: 48px;
 `

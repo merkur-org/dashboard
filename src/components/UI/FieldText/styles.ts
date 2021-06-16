@@ -2,15 +2,15 @@ import styled, { css } from 'styled-components'
 
 export const BodyField = styled.label<{ isEmpty: boolean; isErrored: boolean }>`
   width: 100%;
-  min-width: 26.4rem;
-  min-height: 3.2rem;
+  min-width: 264px;
+  min-height: 32px;
 
   position: relative;
   display: flex;
   align-items: center;
 
   cursor: text;
-  font-size: 1.6rem;
+  font-size: 16px;
   font-weight: 400;
 
   label {
@@ -18,7 +18,7 @@ export const BodyField = styled.label<{ isEmpty: boolean; isErrored: boolean }>`
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    top: 0.8rem;
+    top: 8px;
 
     color: ${({ theme }) => theme.colors.gray};
 
@@ -28,7 +28,7 @@ export const BodyField = styled.label<{ isEmpty: boolean; isErrored: boolean }>`
 
   #border-bottom {
     width: 100%;
-    height: 0.1rem;
+    height: 1px;
 
     position: absolute;
     left: 0;
@@ -65,10 +65,10 @@ export const BodyField = styled.label<{ isEmpty: boolean; isErrored: boolean }>`
     border-bottom: 0;
 
     label {
-      top: -1.6rem;
+      top: -16px;
       color: ${({ theme }) => theme.colors.greenPrimary};
 
-      font-size: 1.2rem;
+      font-size: 12px;
     }
 
     #border-bottom {
@@ -81,7 +81,7 @@ export const BodyField = styled.label<{ isEmpty: boolean; isErrored: boolean }>`
       left: 0;
 
       width: 100%;
-      height: 0.2rem;
+      height: 2px;
 
       background: ${({ theme }) => theme.colors.greenPrimary};
     }
@@ -98,8 +98,8 @@ export const BodyField = styled.label<{ isEmpty: boolean; isErrored: boolean }>`
     !props.isEmpty &&
     css`
       label {
-        top: -1.2rem;
-        font-size: 1.2rem;
+        top: -12px;
+        font-size: 12px;
       }
     `}
   ${props =>
@@ -117,7 +117,7 @@ export const BodyField = styled.label<{ isEmpty: boolean; isErrored: boolean }>`
         left: 0;
 
         width: 100%;
-        height: 0.2rem;
+        height: 2px;
 
         background: ${({ theme }) => theme.colors.error};
       }

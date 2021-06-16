@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 
 export const Error = styled.p`
-  font-size: 1.2rem;
+  font-size: 12px;
   text-align: right;
 
-  margin-top: 0.8rem;
+  margin-top: 8px;
 
   color: ${({ theme }) => theme.colors.error};
 `

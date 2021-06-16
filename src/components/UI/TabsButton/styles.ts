@@ -15,7 +15,7 @@ export const Container = styled.label<ButtonProps>`
     border: none;
   }
 
-  padding: 0 1.2rem;
+  padding: 0 12px;
 
   input {
     visibility: hidden;
@@ -25,7 +25,7 @@ export const Container = styled.label<ButtonProps>`
   label {
     cursor: pointer;
     position: relative;
-    top: 1.2rem;
+    top: 12px;
   }
 
   ${props =>
@@ -40,11 +40,11 @@ export const Container = styled.label<ButtonProps>`
 
 export const SelectionLine = styled.div<ButtonProps>`
   width: 0%;
-  height: 0.4rem;
+  height: 4px;
   background-color: ${({ theme }) => theme.colors.yellowPrimary};
   position: absolute;
   left: 0;
-  margin-bottom: 1.2rem;
+  margin-bottom: 12px;
 
   transition: ${transitions.hover};
   ${props =>

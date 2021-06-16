@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const TabContainer = styled.div`
-  margin-bottom: 4.8rem;
+  margin-bottom: 48px;
   display: flex;
   justify-content: flex-start;
 `
