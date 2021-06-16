@@ -4,7 +4,9 @@ import {
   NumberField,
   TextField,
   EditButton,
-  ShowButton
+  ShowButton,
+  ReferenceField,
+  ReferenceManyField
 } from 'ra-ui-materialui'
 import * as React from 'react'
 
@@ -12,7 +14,9 @@ const ProductsList: React.FC = props => {
   return (
     <List {...props}>
       <Datagrid>
-        <TextField source="name" label="Nome" />
+        <ReferenceField source="id" reference="products" link="show">
+          <TextField source="name" label="Nome" />
+        </ReferenceField>
         <TextField source="category" />
         <TextField source="unit_buy" label="Unidade de compra" />
         <TextField source="unit_sale" label="Unidade de venda" />

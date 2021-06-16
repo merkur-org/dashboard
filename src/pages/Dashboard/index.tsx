@@ -14,7 +14,8 @@ import OrdersList from '../../components/CRUDS/Orders/OrdersList'
 import DeliveryPointsList from '../../components/CRUDS/DeliveryPoints/DeliveryPointsList'
 
 import authProvider from '../../providers/authProvider'
-import Login from '../../pages/Login'
+import LoginPage from '../../pages/Login'
+import ProductsShow from '../../components/CRUDS/Products/ProductsShow'
 
 const Dashboard: React.FC = () => {
   const messages = {
@@ -27,15 +28,16 @@ const Dashboard: React.FC = () => {
     <Admin
       dataProvider={customDataProvider('http://localhost:3333/api')}
       authProvider={authProvider}
-      loginPage={Login}
+      loginPage={LoginPage}
       i18nProvider={i18nProvider}
     >
       <Resource
         name="products"
         list={ProductsList}
         create={ProductCreate}
-        options={{ label: 'Produtos' }}
         edit={ProductEdit}
+        show={ProductsShow}
+        options={{ label: 'Produtos' }}
       />
       <Resource
         name="orders"

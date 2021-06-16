@@ -13,9 +13,9 @@ export default createGlobalStyle`
 
   html, button{
     font-size: 62.5%;
-    font-family: 'Roboto Slab', serif;
     font: 400 1.6rem;
     overflow-x: hidden;
+    font-family: 'Roboto Slab', serif;
   }
 
   textarea:focus,

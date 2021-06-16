@@ -1,16 +1,23 @@
 import IDeliveryPointsDTO from '../dtos/IDeliveryPointsDTO'
+import api from '../services/api'
 
-const serializeDeliveryPoint = (deliveryPoint: IDeliveryPointsDTO): string => {
+const serializeDeliveryPoint = async (
+  deliveryPointID: string
+): Promise<string> => {
+  const { data } = await api.get<IDeliveryPointsDTO>(
+    `/delivery-points/${deliveryPointID}`
+  )
+
   return (
-    deliveryPoint.city +
+    data.city +
     ', ' +
-    deliveryPoint.state +
+    data.state +
     ', ' +
-    deliveryPoint.street +
+    data.street +
     ', ' +
-    deliveryPoint.suburb +
+    data.suburb +
     ', ' +
-    deliveryPoint.cep
+    data.cep
   )
 }
 

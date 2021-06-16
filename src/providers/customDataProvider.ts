@@ -119,6 +119,8 @@ const customDataProvider = (
   update: async (resource, params) => {
     const token = Cookie.get('token')
 
+    delete params.data.id
+
     await api.put(`/${resource}/${params.id}`, params.data, {
       headers: { Authorization: `Bearer ${token}` }
     })

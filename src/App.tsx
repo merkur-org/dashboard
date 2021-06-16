@@ -8,7 +8,7 @@ import Providers from './hooks'
 function App() {
   return (
     <Providers>
-      <GlobalStyles />
+      {/* <GlobalStyles /> */}
       <DashBoard />
     </Providers>
   )
