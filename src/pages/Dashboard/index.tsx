@@ -3,6 +3,11 @@ import { Admin, Resource } from 'react-admin'
 import ptBrMessages from 'ra-language-pt-br'
 import polyglotI18nProvider from 'ra-i18n-polyglot'
 
+import { FaShoppingBag, FaClipboardList, FaMapMarkerAlt } from 'react-icons/fa'
+import { createMuiTheme } from '@material-ui/core'
+
+import Theme from '../../styles/theme'
+
 import customDataProvider from '../../providers/customDataProvider'
 
 import ProductsList from '../../components/CRUDS/Products/ProductsList'
@@ -17,6 +22,24 @@ import authProvider from '../../providers/authProvider'
 import LoginPage from '../../pages/Login'
 import ProductsShow from '../../components/CRUDS/Products/ProductsShow'
 
+const dashBoardTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: Theme.colors.darkOrange
+    },
+    secondary: {
+      main: Theme.colors.orangePrimary
+    },
+    text: {
+      primary: Theme.colors.black,
+      disabled: Theme.colors.lightGray
+    },
+    background: {
+      default: '#f7f7f7'
+    }
+  }
+})
+
 const Dashboard: React.FC = () => {
   const messages = {
     'pt-br': ptBrMessages
@@ -30,6 +53,8 @@ const Dashboard: React.FC = () => {
       authProvider={authProvider}
       loginPage={LoginPage}
       i18nProvider={i18nProvider}
+      theme={dashBoardTheme}
+      title="Merkur Admin"
     >
       <Resource
         name="products"
@@ -37,16 +62,19 @@ const Dashboard: React.FC = () => {
         create={ProductCreate}
         edit={ProductEdit}
         show={ProductsShow}
+        icon={FaShoppingBag}
         options={{ label: 'Produtos' }}
       />
       <Resource
         name="orders"
         list={OrdersList}
+        icon={FaClipboardList}
         options={{ label: 'Pedidos' }}
       />
       <Resource
         name="delivery-points"
         list={DeliveryPointsList}
+        icon={FaMapMarkerAlt}
         options={{ label: 'Pontos de entrega' }}
       />
     </Admin>

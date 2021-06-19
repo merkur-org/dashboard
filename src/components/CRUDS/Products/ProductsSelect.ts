@@ -1,6 +1,6 @@
 export const units = [
   { id: 'g', name: 'Gramas' },
-  { id: 'kg', name: 'Kilogramas' },
+  { id: 'kg', name: 'Quilogramas' },
   { id: 'ton', name: 'Toneladas' },
   { id: 'ml', name: 'Mililitros' },
   { id: 'l', name: 'Litros' },

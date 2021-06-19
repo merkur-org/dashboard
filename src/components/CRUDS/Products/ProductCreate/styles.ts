@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { SimpleForm } from 'react-admin'
+import { Paper } from '@material-ui/core'
 import { breakPoints } from '../../../../styles/constants'
 
 export const Form = styled(SimpleForm)`

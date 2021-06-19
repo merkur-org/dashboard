@@ -1,5 +1,6 @@
 import {
   DeleteButton,
+  ListButton,
   RichTextField,
   SelectField,
   Show,
@@ -14,6 +15,7 @@ const ProductsShow: React.FC = props => {
   return (
     <Show {...props}>
       <SimpleShowLayout>
+        <ListButton label="Voltar" basePath="/products" />
         <TextField source="name" label="Nome" />
         <TextField
           source="cost_price"
