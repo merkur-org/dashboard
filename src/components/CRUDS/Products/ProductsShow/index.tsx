@@ -3,50 +3,73 @@ import {
   ListButton,
   RichTextField,
   SelectField,
+  ImageField,
   Show,
   ShowProps,
   SimpleShowLayout,
-  TextField
+  TextField,
+  FunctionField
 } from 'ra-ui-materialui'
 import React from 'react'
+import { ShowActionsProps, TitleProps, Toolbar } from 'react-admin'
+import { MdArrowBack } from 'react-icons/md'
 import { categories, units } from '../ProductsSelect'
+
+import { ShowData } from './styles'
+
+const ProductShowActions = (props: ShowActionsProps) => {
+  return (
+    <Toolbar>
+      <ListButton label="voltar" icon={<MdArrowBack />} />
+    </Toolbar>
+  )
+}
+
+const ProductShowTitle = ({ record }: TitleProps) => {
+  return <span>{record.name}</span>
+}
 
 const ProductsShow: React.FC = props => {
   return (
-    <Show {...props}>
-      <SimpleShowLayout>
-        <ListButton label="Voltar" basePath="/products" />
+    <Show
+      {...props}
+      actions={<ProductShowActions />}
+      title={<ProductShowTitle />}
+    >
+      <ShowData>
+        <ImageField source="image" label="" />
+        <FunctionField
+          source="organic"
+          label="Tipo do produto"
+          render={record =>
+            record.organic
+              ? 'Este produto é orgânico'
+              : 'Este produto não é orgânico'
+          }
+        />
         <TextField source="name" label="Nome" />
-        <TextField
+        <TextField source="category" label="Categoria" />
+        <TextField source="unit_buy" label="Unidade de compra" />
+        <TextField source="unit_sale" label="Unidade de venda" />
+        <FunctionField
           source="cost_price"
           label="Preço de custo"
-          placeholder="R$"
+          render={record => `R$ ${record.cost_price.toFixed(2)}`}
         />
-        <SelectField source="category" label="Categoria" choices={categories} />
-        <TextField
+        <FunctionField
           source="wholesale_price"
           label="Preço de atacado"
-          placeholder="R$"
+          render={record => `R$ ${record.wholesale_price.toFixed(2)}`}
         />
-        <SelectField
-          source="unit_buy"
-          label="Unidade de compra"
-          choices={units}
-        />
-        <TextField source="fraction_buy" label="Fração de compra" />
-        <SelectField
-          source="unit_sale"
-          label="Unidade de venda"
-          choices={units}
-        />
-        <TextField source="fraction_sale" label="Fração de venda" />
-        <TextField
+        <FunctionField
           source="sale_price"
           label="Preço de venda"
-          placeholder="R$"
+          render={record => `R$ ${record.sale_price.toFixed(2)}`}
         />
+        <TextField source="fraction_buy" label="Fração de compra" />
+        <TextField source="fraction_sale" label="Fração de venda" />
         <RichTextField source="observation" label="Observação" />
-      </SimpleShowLayout>
+      </ShowData>
     </Show>
   )
 }

@@ -21,6 +21,7 @@ const customDataProvider = (
         headers: { Authorization: `Bearer ${token}` }
       }
     )
+    console.log(params)
 
     return {
       data: data.data,
@@ -79,31 +80,22 @@ const customDataProvider = (
   create: async (resource, params) => {
     const token = Cookie.get('token')
 
-    console.log(params)
-
-    if (params.data.hasOwnProperty('image')) {
-      const image = params.data.image
+    if (
+      params.data.hasOwnProperty('image') ||
+      params.data.hasOwnProperty('updated_at') ||
+      params.data.hasOwnProperty('created_at')
+    ) {
       delete params.data.image
+      delete params.data.updated_at
+      delete params.data.created_at
+    }
 
-      const { data } = await api.post(`/${resource}`, params.data, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+    const { data } = await api.post(`/${resource}`, params.data, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
 
-      await api.patch(`/${resource}/image/${params.data.id}`, image, {
-        headers: { 'content-type': 'multipart/form-data' }
-      })
-
-      return {
-        data
-      }
-    } else {
-      const { data } = await api.post(`/${resource}`, params.data, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-
-      return {
-        data
-      }
+    return {
+      data
     }
   },
 

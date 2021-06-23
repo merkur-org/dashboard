@@ -1,64 +1,91 @@
-import { TextInput, SelectInput, Edit, ListButton } from 'react-admin'
+import {
+  TextInput,
+  SelectInput,
+  Edit,
+  ListButton,
+  Toolbar,
+  TitleProps,
+  useTranslate,
+  TabbedForm,
+  FormTab,
+  ImageInput,
+  ImageField,
+  BooleanInput,
+  CloneButton,
+  EditActionsProps
+} from 'react-admin'
 import React from 'react'
 
 import { Form } from './styles'
 
 import { categories, units } from '../ProductsSelect'
 import BackButton from '../../../UI/BackButton'
+import { MdArrowBack } from 'react-icons/md'
+
+const ProductEditActions = (props: EditActionsProps) => {
+  return (
+    <Toolbar>
+      <ListButton label="voltar" icon={<MdArrowBack />} />
+      <CloneButton record={props.data} basePath={props.basePath} />
+    </Toolbar>
+  )
+}
+
+const ProductEditTitle = ({ record }: TitleProps) => {
+  return <span> Editar produto {record.name}</span>
+}
 
 const ProductEdit: React.FC = props => {
   return (
-    <Edit title="Adicionar novo produto" {...props}>
-      <>
-        <ListButton label="Voltar" basePath="/products" />
-        <Form>
+    <Edit
+      {...props}
+      title={<ProductEditTitle />}
+      actions={<ProductEditActions />}
+    >
+      <Form warnWhenUnsavedChanges>
+        <FormTab label="Informações do produto">
           <TextInput source="name" label="Nome" />
           <TextInput
             source="cost_price"
             label="Preço de custo"
             placeholder="R$"
-            disabled
           />
           <SelectInput
             source="category"
             label="Categoria"
             choices={categories}
-            disabled
           />
           <TextInput
             source="wholesale_price"
             label="Preço de atacado"
             placeholder="R$"
-            disabled
           />
           <SelectInput
             source="unit_buy"
             label="Unidade de compra"
             choices={units}
-            disabled
           />
-          <TextInput source="fraction_buy" label="Fração de compra" disabled />
+          <TextInput source="fraction_buy" label="Fração de compra" />
           <SelectInput
             source="unit_sale"
             label="Unidade de venda"
             choices={units}
-            disabled
           />
-          <TextInput source="fraction_sale" label="Fração de venda" disabled />
+          <TextInput source="fraction_sale" label="Fração de venda" />
           <TextInput
             source="sale_price"
             label="Preço de venda"
             placeholder="R$"
-            disabled
           />
-          <TextInput
-            source="observation"
-            label="Observação"
-            multiline
-            disabled
-          />
-        </Form>
-      </>
+          <TextInput source="observation" label="Observação" multiline />
+          <BooleanInput source="organic" label="Produto é orgânico?" />
+        </FormTab>
+        <FormTab label="imagem">
+          <ImageInput source="image" label="Imagem do produto" multiple={false}>
+            <ImageField label="src" />
+          </ImageInput>
+        </FormTab>
+      </Form>
     </Edit>
   )
 }
