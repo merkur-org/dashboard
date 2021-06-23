@@ -82,7 +82,7 @@ const ProductCreate: React.FC<CreateProps> = props => {
           <TextInput
             source="cost_price"
             label="Preço de custo"
-            placeholder="R$ 00,00"
+            placeholder="R$ 00,"
             required
           />
           <TextInput

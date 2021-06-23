@@ -11,16 +11,17 @@ import Theme from '../../styles/theme'
 import customDataProvider from '../../providers/customDataProvider'
 
 import ProductsList from '../../components/CRUDS/Products/ProductsList'
+import ProductsShow from '../../components/CRUDS/Products/ProductsShow'
 import ProductCreate from '../../components/CRUDS/Products/ProductCreate'
 import ProductEdit from '../../components/CRUDS/Products/ProductEdit'
 
 import OrdersList from '../../components/CRUDS/Orders/OrdersList'
+import OrdersShow from '../../components/CRUDS/Orders/OrdersShow'
 
 import DeliveryPointsList from '../../components/CRUDS/DeliveryPoints/DeliveryPointsList'
 
 import authProvider from '../../providers/authProvider'
 import LoginPage from '../../pages/Login'
-import ProductsShow from '../../components/CRUDS/Products/ProductsShow'
 
 const dashBoardTheme = createMuiTheme({
   palette: {
@@ -68,6 +69,7 @@ const Dashboard: React.FC = () => {
       <Resource
         name="orders"
         list={OrdersList}
+        show={OrdersShow}
         icon={FaClipboardList}
         options={{ label: 'Pedidos' }}
       />

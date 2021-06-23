@@ -82,7 +82,7 @@ const ProductEdit: React.FC = props => {
         </FormTab>
         <FormTab label="imagem">
           <ImageInput source="image" label="Imagem do produto" multiple={false}>
-            <ImageField label="src" />
+            <ImageField src="src" />
           </ImageInput>
         </FormTab>
       </Form>

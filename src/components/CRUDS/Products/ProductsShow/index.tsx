@@ -37,7 +37,11 @@ const ProductsShow: React.FC = props => {
       title={<ProductShowTitle />}
     >
       <ShowData>
-        <ImageField source="image" label="" />
+        <FunctionField
+          source="image_url"
+          render={record => <img src={record.image_url} />}
+          label=""
+        />
         <FunctionField
           source="organic"
           label="Tipo do produto"
