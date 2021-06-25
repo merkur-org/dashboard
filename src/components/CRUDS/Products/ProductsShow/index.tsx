@@ -37,11 +37,8 @@ const ProductsShow: React.FC = props => {
       title={<ProductShowTitle />}
     >
       <ShowData>
-        <FunctionField
-          source="image_url"
-          render={record => <img src={record.image_url} />}
-          label=""
-        />
+        <ImageField source="image_url" label="" />
+        <TextField source="name" label="Nome" />
         <FunctionField
           source="organic"
           label="Tipo do produto"
@@ -51,7 +48,6 @@ const ProductsShow: React.FC = props => {
               : 'Este produto não é orgânico'
           }
         />
-        <TextField source="name" label="Nome" />
         <TextField source="category" label="Categoria" />
         <TextField source="unit_buy" label="Unidade de compra" />
         <TextField source="unit_sale" label="Unidade de venda" />

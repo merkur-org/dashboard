@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie'
 import React, { useState, useCallback, useEffect, useContext } from 'react'
 import {
   Create,
@@ -13,12 +14,14 @@ import {
   Toolbar,
   useNotify,
   useRedirect,
-  BooleanInput
+  BooleanInput,
+  useRefresh
 } from 'react-admin'
 import { MdArrowBack } from 'react-icons/md'
 
 import { categories, units } from '../ProductsSelect'
-import { Form } from './styles'
+import { Form, BololeanInputsContainer } from './styles'
+import handleAddImage from '../../../../utils/handleAddImage'
 
 const ProductCreateActions: React.FC = props => {
   return (
@@ -29,12 +32,22 @@ const ProductCreateActions: React.FC = props => {
 }
 
 const ProductCreate: React.FC<CreateProps> = props => {
+  const refresh = useRefresh()
+  const redirect = useRedirect()
+
   return (
     <>
       <Create
         {...props}
         title="Adicionar novo produto"
         actions={<ProductCreateActions />}
+        onSuccess={formData => {
+          console.log(formData)
+
+          handleAddImage(formData)
+          redirect('/products')
+          refresh()
+        }}
       >
         <Form
           validate={values => {
@@ -50,7 +63,8 @@ const ProductCreate: React.FC<CreateProps> = props => {
               'fraction_buy',
               'fraction_sale',
               'observation',
-              'image'
+              'image',
+              'nutritional_information'
             ].forEach(field => {
               if (!values[field]) {
                 errors[field] = 'Campo Obrigatório'
@@ -105,6 +119,24 @@ const ProductCreate: React.FC<CreateProps> = props => {
             multiline
             required
           />
+          <TextInput
+            source="nutritional_information"
+            label="Informações nutricionais"
+            multiline
+            required
+          />
+          <BololeanInputsContainer>
+            <BooleanInput
+              source="organic"
+              label="Produto é orgânico?"
+              defaultValue={true}
+            />
+            <BooleanInput
+              source="highlights"
+              label="Colocar produto nos destaques?"
+              defaultValue={false}
+            />
+          </BololeanInputsContainer>
           <ImageInput
             source="image"
             label="Imagem do produto"
@@ -113,11 +145,6 @@ const ProductCreate: React.FC<CreateProps> = props => {
           >
             <ImageField label="src" />
           </ImageInput>
-          <BooleanInput
-            source="organic"
-            label="Produto é orgânico?"
-            defaultValue={true}
-          />
         </Form>
       </Create>
     </>

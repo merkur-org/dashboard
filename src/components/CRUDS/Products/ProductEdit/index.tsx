@@ -12,15 +12,18 @@ import {
   ImageField,
   BooleanInput,
   CloneButton,
-  EditActionsProps
+  EditActionsProps,
+  useRefresh,
+  useRedirect
 } from 'react-admin'
 import React from 'react'
 
-import { Form } from './styles'
+import { Form, BololeanInputsContainer } from './styles'
 
 import { categories, units } from '../ProductsSelect'
 import BackButton from '../../../UI/BackButton'
 import { MdArrowBack } from 'react-icons/md'
+import handleAddImage from '../../../../utils/handleAddImage'
 
 const ProductEditActions = (props: EditActionsProps) => {
   return (
@@ -36,13 +39,24 @@ const ProductEditTitle = ({ record }: TitleProps) => {
 }
 
 const ProductEdit: React.FC = props => {
+  const refresh = useRefresh()
+  const redirect = useRedirect()
+
   return (
     <Edit
       {...props}
       title={<ProductEditTitle />}
       actions={<ProductEditActions />}
+      onSuccess={formData => {
+        console.log(formData)
+
+        handleAddImage(formData)
+        redirect('/products')
+        refresh()
+      }}
+      mutationMode="pessimistic"
     >
-      <Form warnWhenUnsavedChanges>
+      <Form>
         <FormTab label="Informações do produto">
           <TextInput source="name" label="Nome" />
           <TextInput
@@ -78,7 +92,18 @@ const ProductEdit: React.FC = props => {
             placeholder="R$"
           />
           <TextInput source="observation" label="Observação" multiline />
-          <BooleanInput source="organic" label="Produto é orgânico?" />
+          <TextInput
+            source="nutritional_information"
+            label="Informações nutricionais"
+            multiline
+          />
+          <BololeanInputsContainer>
+            <BooleanInput source="organic" label="Produto é orgânico?" />
+            <BooleanInput
+              source="highlights"
+              label="Colocar produto nos destaques?"
+            />
+          </BololeanInputsContainer>
         </FormTab>
         <FormTab label="imagem">
           <ImageInput source="image" label="Imagem do produto" multiple={false}>

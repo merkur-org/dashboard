@@ -11,7 +11,12 @@ import {
 } from 'ra-ui-materialui'
 import { useMediaQuery } from '@material-ui/core'
 import { Theme } from '@material-ui/core/styles'
-import { BulkExportButton, EditButton, ShowButton } from 'react-admin'
+import {
+  ArrayField,
+  BulkExportButton,
+  EditButton,
+  ShowButton
+} from 'react-admin'
 import { useRecordContext } from 'ra-core'
 import Cookie from 'js-cookie'
 
@@ -48,6 +53,22 @@ export const UserField: React.FC<TextFieldProps> = props => {
   return <p>{user}</p>
 }
 
+const DeliveryPointField: React.FC<TextFieldProps> = props => {
+  const record = useRecordContext(props)
+  const [deliveryPoint, setDeliveryPoint] = useState('')
+
+  useEffect(() => {
+    async function setSerializedDeliveryPoint() {
+      const point = await serializeDeliveryPoint(record.delivery_point_id)
+      setDeliveryPoint(point)
+    }
+
+    setSerializedDeliveryPoint()
+  }, [record])
+
+  return <p>{deliveryPoint}</p>
+}
+
 const OrdersListActionToolbar = ({ children, ...props }) => {
   return (
     <OrdersListActions>
@@ -61,6 +82,21 @@ const OrdersListBulkActions = memo(({ children, ...props }) => (
     <BulkExportButton {...props} />
   </div>
 ))
+
+const OrderExpandPanel = ({ record }) => {
+  console.log(record.record.details)
+
+  return (
+    <div>
+      <DeliveryPointField label="Ponto de entrega" />
+      <ArrayField source={record.record.details}>
+        <Datagrid>
+          <TextField label="Id" source="discount" />
+        </Datagrid>
+      </ArrayField>
+    </div>
+  )
+}
 
 const OrdersList: React.FC = props => {
   const isSmall = useMediaQuery<Theme>(theme => theme.breakpoints.down('sm'))
@@ -84,7 +120,7 @@ const OrdersList: React.FC = props => {
           )}
         />
       ) : (
-        <Datagrid rowClick="show">
+        <Datagrid expand={record => <OrderExpandPanel record={record} />}>
           <DateField source="date" label="Data do pedido" sortable={false} />
           <UserField source="user_id" label="Usuário" sortable={false} />
           <FunctionField

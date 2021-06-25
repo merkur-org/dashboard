@@ -18,3 +18,16 @@ export const Form = styled(SimpleForm)`
     }
   }
 `
+
+export const BololeanInputsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: nowrap;
+
+  @media ${breakPoints.tablet} {
+    flex-direction: row;
+    align-items: center;
+  }
+`

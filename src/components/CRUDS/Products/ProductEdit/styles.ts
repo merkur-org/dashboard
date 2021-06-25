@@ -15,3 +15,20 @@ export const Form = styled(TabbedForm)`
     }
   }
 `
+
+export const BololeanInputsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: nowrap;
+
+  .MuiTypography-root {
+    white-space: nowrap;
+  }
+
+  @media ${breakPoints.tablet} {
+    flex-direction: row;
+    align-items: center;
+  }
+`
