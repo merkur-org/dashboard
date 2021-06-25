@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { SimpleForm } from 'react-admin'
+import { Paper } from '@material-ui/core'
 import { breakPoints } from '../../../../styles/constants'
 
 export const Form = styled(SimpleForm)`
@@ -15,5 +16,18 @@ export const Form = styled(SimpleForm)`
         width: 100%;
       }
     }
+  }
+`
+
+export const BololeanInputsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: nowrap;
+
+  @media ${breakPoints.tablet} {
+    flex-direction: row;
+    align-items: center;
   }
 `

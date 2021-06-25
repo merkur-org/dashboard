@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { FormHandles } from '@unform/core'
 import { Form } from '@unform/web'
-import { useLogin } from 'react-admin'
+import { Login, useLogin } from 'react-admin'
 
 import validateLogin from '../../utils/validateLogin'
 import phoneInputMask from '../../utils/phoneInputMask'
@@ -27,6 +27,9 @@ import {
 } from './styles'
 import WithUserLogged from '../../components/UI/WithUserLogged'
 
+import GlobalStyles from '../../styles/global'
+import { ThemeProvider } from 'styled-components'
+
 interface formProps {
   cpfTab: boolean
   emailTab: boolean
@@ -36,7 +39,7 @@ interface formProps {
   cpf?: string
 }
 
-const Login: React.FC = () => {
+const LoginPage: React.FC = () => {
   const login = useLogin()
   const history = useHistory()
 
@@ -154,4 +157,4 @@ const Login: React.FC = () => {
   )
 }
 
-export default Login
+export default LoginPage

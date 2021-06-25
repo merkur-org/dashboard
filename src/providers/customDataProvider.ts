@@ -3,6 +3,7 @@ import { Http2ServerRequest } from 'http2'
 import Cookie from 'js-cookie'
 import { stringify } from 'querystring'
 import { DataProvider, fetchUtils } from 'ra-core'
+import { IProductsDTO } from '../dtos/IProductsDTO'
 import api from '../services/api'
 
 const customDataProvider = (
@@ -13,12 +14,13 @@ const customDataProvider = (
     const token = Cookie.get('token')
 
     const { page, perPage } = params.pagination
-    const { order, field } = params.sort
-    const filter = params.filter
 
-    const { data } = await api.get(`/${resource}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
+    const { data } = await api.get(
+      `/${resource}?page=${page}&limit=${perPage}`,
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    )
 
     return {
       data: data.data,
@@ -41,25 +43,15 @@ const customDataProvider = (
   getMany: async (resource, params) => {
     const token = Cookie.get('token')
 
-    const query = stringify({
-      sort_by: 'fraction_buy'
-    })
+    const data = await Promise.all(
+      params.ids.map(async id => {
+        const { data } = await api.get(`${resource}/${id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
 
-    const { data } = await api.get(`/${resource}/${params.ids}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-
-    return {
-      data
-    }
-  },
-
-  create: async (resource, params) => {
-    const token = Cookie.get('token')
-
-    const { data } = await api.post(`/${resource}`, params.data, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
+        return data
+      })
+    )
 
     return {
       data
@@ -67,17 +59,49 @@ const customDataProvider = (
   },
 
   getManyReference: async (resource, params) => {
-    const query = stringify({
-      sort_by: 'fraction_buy'
-    })
+    const token = Cookie.get('token')
 
-    const { data } = await api.get(`/${resource}?${query}`, {
-      method: 'GET'
-    })
+    const { page, perPage } = params.pagination
+
+    const { data } = await api.get(
+      `/${resource}?page=${page}&limit=${perPage}`,
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    )
 
     return {
       data: data.data,
       total: data.total_count
+    }
+  },
+
+  create: async (resource, params) => {
+    const token = Cookie.get('token')
+
+    if (
+      params.data.hasOwnProperty('updated_at') ||
+      params.data.hasOwnProperty('created_at')
+    ) {
+      delete params.data.updated_at
+      delete params.data.created_at
+    }
+
+    let image
+
+    if (params.data.hasOwnProperty('image')) {
+      image = params.data.image
+
+      delete params.data.image
+    }
+
+    const { data } = await api.post(`/${resource}`, params.data, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+
+    return {
+      data,
+      image
     }
   },
 
@@ -96,7 +120,7 @@ const customDataProvider = (
   deleteMany: async (resource, params) => {
     const token = Cookie.get('token')
 
-    await Promise.allSettled(
+    const message = await Promise.all<string>(
       params.ids.map(id => {
         return api.delete(`/${resource}/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
@@ -105,40 +129,52 @@ const customDataProvider = (
     )
 
     return {
-      data: params.ids
+      data: message
     }
   },
 
   update: async (resource, params) => {
     const token = Cookie.get('token')
 
-    await api.put(`/${resource}/${params.id}`, params.data, {
+    const { id } = params.data
+
+    let image
+
+    if (params.data.hasOwnProperty('image')) {
+      image = params.data.image
+
+      delete params.data.image
+    }
+
+    delete params.data.id
+    delete params.data.image_url
+    delete params.data.created_at
+    delete params.data.updated_at
+
+    const { data } = await api.put(`/${resource}/${id}`, params.data, {
       headers: { Authorization: `Bearer ${token}` }
     })
-
     return {
-      data: {
-        ...params.data
-      }
+      data,
+      image
     }
   },
 
   updateMany: async (resource, params) => {
-    const query = stringify({
-      filter: JSON.stringify({
-        where: {
-          id: { inq: params.ids }
-        }
-      })
-    })
+    const token = Cookie.get('token')
 
-    await httpClient(`${apiUrl}/${resource}?${query}`, {
-      method: 'PUT',
-      body: JSON.stringify(params.data)
-    })
+    const data = await Promise.all(
+      params.ids.map(async id => {
+        const { data } = await api.put(`${resource}/${id}`, params.data, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+
+        return data
+      })
+    )
 
     return {
-      data: params.ids
+      data
     }
   }
 })

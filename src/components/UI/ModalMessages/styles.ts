@@ -8,19 +8,19 @@ interface OpenModalProps {
 
 const openAnimation = keyframes`
   0% {
-    bottom: -3.2rem;
+    bottom: -32px;
   }
   25%{
-    bottom: 3.2rem;
+    bottom: 32px;
   }
   70%{
-    bottom: 3.2rem;
+    bottom: 32px;
   }
   85%{
-    bottom: 4rem;
+    bottom: 40px;
   }
   100%{
-    bottom: -3.2rem;
+    bottom: -32px;
   }
 `
 
@@ -34,11 +34,11 @@ export const Container = styled.div<OpenModalProps>`
     box-shadow: ${effects.dropShadow};
     border-radius: ${border.borderRadius};
 
-    font-size: 1.6rem;
+    font-size: 16px;
     font-weight: bold;
     text-align: center;
 
-    padding: 0.8rem;
+    padding: 8px;
 
     ${props => {
       if (props.type === 'success') {

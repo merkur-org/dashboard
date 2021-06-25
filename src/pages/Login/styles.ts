@@ -6,33 +6,36 @@ interface PageProps {
 }
 
 export const Container = styled.div<PageProps>`
-  width: 100vw;
+  font-family: 'Roboto Slab', serif;
   height: 100vh;
 
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-x: hidden;
 
   ${props =>
     props.isLoading &&
     css`
       cursor: wait;
     `}
-
   h1 {
+    margin: 0;
+    padding: 0;
     /* BEM VINDO */
 
     font-weight: bold;
-    font-size: 2.4rem;
-
+    font-size: 24px;
     /* Black Text */
     color: ${({ theme }) => theme.colors.black};
   }
   h2 {
     /* Informe seus dados para iniciar a sessÃ£o */
-
     font-weight: 400;
-    font-size: 1.2rem;
+    font-size: 12px;
+
+    margin: 0;
+    padding: 0;
 
     /* Black Text */
     color: ${({ theme }) => theme.colors.black};
@@ -40,10 +43,10 @@ export const Container = styled.div<PageProps>`
 
   @media ${breakPoints.mobileL} {
     h1 {
-      font-size: 3.6rem;
+      font-size: 36px;
     }
     h2 {
-      font-size: 1.6rem;
+      font-size: 16px;
     }
   }
 `
@@ -65,40 +68,42 @@ export const BackgroundWhiteRectangle = styled.div`
   box-shadow: ${effects.dropShadow};
   border-radius: 8px;
 
-  margin: 0 1.6rem;
+  margin: 0 16px;
 
   @media ${breakPoints.mobileL} {
-    max-width: 46.4rem;
+    max-width: 464px;
   }
 `
 export const WelcomeContainer = styled.div`
-  padding: 3.2rem;
+  padding: 32px;
 `
 
 export const FormContainer = styled.div`
   border-top: 1px solid #efeded;
-  padding: 0 3.2rem 3.2rem 3.2rem;
+  padding: 0 32px 32px 32px;
 `
 
 export const InputContainer = styled.div`
-  margin-bottom: 2.4rem;
+  margin-bottom: 24px;
   width: 100%;
 `
 
 export const ButtonContainer = styled.div`
   width: 100%;
-  margin-top: 4.8rem;
+  margin-top: 48px;
 
   @media ${breakPoints.mobileL} {
-    max-width: 22rem;
+    max-width: 220px;
   }
 `
 
 export const LinksContainer = styled.div`
   margin-top: 0.8rem;
-  margin-bottom: 2.4rem;
+  margin-bottom: 24px;
   display: flex;
   justify-content: space-between;
+
+  font-size: 12px;
 
   a {
     color: ${({ theme }) => theme.colors.gray};

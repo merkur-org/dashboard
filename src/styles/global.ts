@@ -9,13 +9,13 @@ export default createGlobalStyle`
     box-sizing: border-box;
     text-decoration:none;
     list-style:none;
-    /* font-size:62.5%; */
   }
 
   html, button{
-    font-family: 'Roboto Slab', serif;
+    font-size: 62.5%;
     font: 400 1.6rem;
     overflow-x: hidden;
+    font-family: 'Roboto Slab', serif;
   }
 
   textarea:focus,
@@ -37,6 +37,4 @@ export default createGlobalStyle`
     color: ${props => props.theme.colors.black};
     cursor: default;
   }
-
-
 `
