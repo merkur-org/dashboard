@@ -1,3 +1,4 @@
+import React, { cloneElement, memo, Children } from 'react'
 import { Theme, useMediaQuery } from '@material-ui/core'
 import {
   Datagrid,
@@ -10,15 +11,13 @@ import {
   ShowButton,
   SimpleList
 } from 'ra-ui-materialui'
-import * as React from 'react'
-import { cloneElement, memo } from 'react'
 
 import { DeliveryPointsListActions } from './styles'
 
 const DeliveryPointsActionToolbar = ({ children, ...props }) => {
   return (
     <DeliveryPointsListActions>
-      {children.map(children, button => cloneElement(button, props))}
+      {Children.map(children, button => cloneElement(button, props))}
     </DeliveryPointsListActions>
   )
 }
@@ -37,8 +36,9 @@ const DeliveryPointsList: React.FC = props => {
     <List {...props}>
       {isSmall ? (
         <SimpleList
-          primaryText={record => record.name}
-          tertiaryText={record => record.category}
+          primaryText={record => record.city}
+          secondaryText={record => record.state}
+          tertiaryText={record => record.cep}
         />
       ) : (
         <Datagrid>

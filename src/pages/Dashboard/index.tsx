@@ -4,9 +4,8 @@ import ptBrMessages from 'ra-language-pt-br'
 import polyglotI18nProvider from 'ra-i18n-polyglot'
 
 import { FaShoppingBag, FaClipboardList, FaMapMarkerAlt } from 'react-icons/fa'
-import { createMuiTheme } from '@material-ui/core'
 
-import Theme from '../../styles/theme'
+import dashBoardTheme from '../../styles/dashBoardTheme'
 
 import customDataProvider from '../../providers/customDataProvider'
 
@@ -16,30 +15,11 @@ import ProductCreate from '../../components/CRUDS/Products/ProductCreate'
 import ProductEdit from '../../components/CRUDS/Products/ProductEdit'
 
 import OrdersList from '../../components/CRUDS/Orders/OrdersList'
-import OrdersShow from '../../components/CRUDS/Orders/OrdersShow'
 
 import DeliveryPointsList from '../../components/CRUDS/DeliveryPoints/DeliveryPointsList'
 
 import authProvider from '../../providers/authProvider'
 import LoginPage from '../../pages/Login'
-
-const dashBoardTheme = createMuiTheme({
-  palette: {
-    primary: {
-      main: Theme.colors.darkOrange
-    },
-    secondary: {
-      main: Theme.colors.orangePrimary
-    },
-    text: {
-      primary: Theme.colors.black,
-      disabled: Theme.colors.lightGray
-    },
-    background: {
-      default: '#f7f7f7'
-    }
-  }
-})
 
 const Dashboard: React.FC = () => {
   const messages = {
@@ -69,7 +49,6 @@ const Dashboard: React.FC = () => {
       <Resource
         name="orders"
         list={OrdersList}
-        show={OrdersShow}
         icon={FaClipboardList}
         options={{ label: 'Pedidos' }}
       />
