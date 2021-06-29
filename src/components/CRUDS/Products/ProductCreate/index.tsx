@@ -42,8 +42,6 @@ const ProductCreate: React.FC<CreateProps> = props => {
         title="Adicionar novo produto"
         actions={<ProductCreateActions />}
         onSuccess={formData => {
-          console.log(formData)
-
           handleAddImage(formData)
           redirect('/products')
           refresh()

@@ -17,6 +17,9 @@ import ProductEdit from '../../components/CRUDS/Products/ProductEdit'
 import OrdersList from '../../components/CRUDS/Orders/OrdersList'
 
 import DeliveryPointsList from '../../components/CRUDS/DeliveryPoints/DeliveryPointsList'
+import DeliveryPointCreate from '../../components/CRUDS/DeliveryPoints/DeliveryPointCreate'
+import DeliveryPointEdit from '../../components/CRUDS/DeliveryPoints/DeliveryPointEdit'
+import DeliveryPointShow from '../../components/CRUDS/DeliveryPoints/DeliveryPointShow'
 
 import authProvider from '../../providers/authProvider'
 import LoginPage from '../../pages/Login'
@@ -55,6 +58,9 @@ const Dashboard: React.FC = () => {
       <Resource
         name="delivery-points"
         list={DeliveryPointsList}
+        create={DeliveryPointCreate}
+        edit={DeliveryPointEdit}
+        show={DeliveryPointShow}
         icon={FaMapMarkerAlt}
         options={{ label: 'Pontos de entrega' }}
       />

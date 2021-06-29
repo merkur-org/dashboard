@@ -33,7 +33,7 @@ const DeliveryPointsList: React.FC = props => {
   const isSmall = useMediaQuery<Theme>(theme => theme.breakpoints.down('sm'))
 
   return (
-    <List {...props}>
+    <List {...props} bulkActionButtons={<DeliveryPointsListBulkActions />}>
       {isSmall ? (
         <SimpleList
           primaryText={record => record.city}
@@ -41,7 +41,7 @@ const DeliveryPointsList: React.FC = props => {
           tertiaryText={record => record.cep}
         />
       ) : (
-        <Datagrid>
+        <Datagrid rowClick="edit">
           <TextField
             source="city"
             label="Cidade"
