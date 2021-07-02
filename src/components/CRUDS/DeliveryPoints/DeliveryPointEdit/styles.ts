@@ -3,6 +3,16 @@ import { SimpleForm } from 'react-admin'
 import { breakPoints } from '../../../../styles/constants'
 
 export const Form = styled(SimpleForm)`
+  .leaflet-container {
+    height: 300px;
+    width: 100%;
+  }
+
+  .leaflet-touch .leaflet-control-layers,
+  .leaflet-touch .leaflet-bar {
+    border: none;
+  }
+
   @media ${breakPoints.tablet} {
     .MuiCardContent-root {
       display: grid;

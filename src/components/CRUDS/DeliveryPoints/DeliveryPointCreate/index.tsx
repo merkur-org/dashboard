@@ -1,29 +1,24 @@
-import axios from 'axios'
-import Cookies from 'js-cookie'
 import React, { useState, useCallback, useEffect, useContext } from 'react'
 import {
   Create,
-  SimpleForm,
   TextInput,
   SelectInput,
-  ImageInput,
   ListButton,
-  ImageField,
-  FileInput,
-  FileField,
   CreateProps,
   Toolbar,
-  useNotify,
-  useRedirect,
-  BooleanInput,
-  useRefresh,
   NumberInput
 } from 'react-admin'
+import { Field } from 'react-final-form'
 import { MdArrowBack } from 'react-icons/md'
+import axios from 'axios'
+import Cookies from 'js-cookie'
+import { LatLngExpression, LatLngTuple } from 'leaflet'
+import { MapContainer, TileLayer } from 'react-leaflet'
 
-import handleAddImage from '../../../../utils/handleAddImage'
+import AddMarker from '../../../UI/AddMarker'
 
 import { Form } from './styles'
+import PositionInputField from '../../../UI/PositionInputField'
 
 const DeliveryPointCreateActions: React.FC = () => {
   return (
@@ -40,14 +35,16 @@ interface UFProps {
 
 const DeliveryPointCreate: React.FC<CreateProps> = props => {
   const [ufs, setUfs] = useState<UFProps[]>()
+  const [selectedPosition, setSelectedPosition] = useState<LatLngTuple>([
+    -26.2167164, -52.666736
+  ])
+  const [initialPosition] = useState<LatLngTuple>([-26.2167164, -52.666736])
 
   useEffect(() => {
     async function fetchUfs() {
       const { data } = await axios.get(
         'https://servicodados.ibge.gov.br/api/v1/localidades/estados'
       )
-
-      console.log(data)
 
       const states = data.map(uf => {
         return {
@@ -67,6 +64,7 @@ const DeliveryPointCreate: React.FC<CreateProps> = props => {
         {...props}
         title="Adicionar novo ponto de entrega"
         actions={<DeliveryPointCreateActions />}
+        options={{ position: selectedPosition }}
       >
         <Form
           validate={values => {
@@ -87,6 +85,30 @@ const DeliveryPointCreate: React.FC<CreateProps> = props => {
           <TextInput source="suburb" label="Bairro" required />
           <TextInput source="street" label="Rua" required />
           <NumberInput source="number" label="Número" required />
+          <TextInput source="cep" label="CEP" required />
+          <MapContainer center={initialPosition} zoom={13} fullwidth>
+            <TileLayer
+              attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <AddMarker
+              name="position"
+              source="latitude"
+              isRequired
+              position={selectedPosition}
+              setPosition={setSelectedPosition}
+            />
+          </MapContainer>
+          <PositionInputField
+            source="latitude"
+            name="latitude"
+            position={selectedPosition[0]}
+          />
+          <PositionInputField
+            source="longitude"
+            name="longitude"
+            position={selectedPosition[1]}
+          />
         </Form>
       </Create>
     </>

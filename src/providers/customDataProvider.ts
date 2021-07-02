@@ -3,6 +3,7 @@ import { Http2ServerRequest } from 'http2'
 import Cookie from 'js-cookie'
 import { stringify } from 'querystring'
 import { DataProvider, fetchUtils } from 'ra-core'
+import { useParams } from 'react-router-dom'
 import { IProductsDTO } from '../dtos/IProductsDTO'
 import api from '../services/api'
 
@@ -87,21 +88,31 @@ const customDataProvider = (
       delete params.data.created_at
     }
 
-    let image
+    switch (resource) {
+      case 'products': {
+        const image = params.data.image
 
-    if (params.data.hasOwnProperty('image')) {
-      image = params.data.image
+        delete params.data.image
 
-      delete params.data.image
-    }
+        const { data } = await api.post(`/${resource}`, params.data, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
 
-    const { data } = await api.post(`/${resource}`, params.data, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
+        return {
+          data,
+          image
+        }
+      }
 
-    return {
-      data,
-      image
+      default: {
+        const { data } = await api.post(`/${resource}`, params.data, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+
+        return {
+          data
+        }
+      }
     }
   },
 

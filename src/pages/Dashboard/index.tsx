@@ -3,7 +3,14 @@ import { Admin, Resource } from 'react-admin'
 import ptBrMessages from 'ra-language-pt-br'
 import polyglotI18nProvider from 'ra-i18n-polyglot'
 
-import { FaShoppingBag, FaClipboardList, FaMapMarkerAlt } from 'react-icons/fa'
+import {
+  FaShoppingBag,
+  FaClipboardList,
+  FaMapMarkerAlt,
+  FaCalendarAlt,
+  FaTruck,
+  FaClipboard
+} from 'react-icons/fa'
 
 import dashBoardTheme from '../../styles/dashBoardTheme'
 
@@ -63,6 +70,21 @@ const Dashboard: React.FC = () => {
         show={DeliveryPointShow}
         icon={FaMapMarkerAlt}
         options={{ label: 'Pontos de entrega' }}
+      />
+      <Resource
+        name="weekly-offer"
+        icon={FaCalendarAlt}
+        options={{ label: 'Oferta semanal' }}
+      />
+      <Resource
+        name="providers"
+        icon={FaTruck}
+        options={{ label: 'Oferta semanal' }}
+      />
+      <Resource
+        name="providers"
+        icon={FaClipboard}
+        options={{ label: 'Oferta semanal' }}
       />
     </Admin>
   )

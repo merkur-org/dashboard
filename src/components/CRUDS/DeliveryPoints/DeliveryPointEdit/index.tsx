@@ -5,27 +5,23 @@ import {
   ListButton,
   Toolbar,
   TitleProps,
-  useTranslate,
-  TabbedForm,
-  FormTab,
-  ImageInput,
-  ImageField,
-  BooleanInput,
   CloneButton,
   EditActionsProps,
-  useRefresh,
-  useRedirect,
   NumberInput,
-  SimpleForm
+  EditProps
 } from 'react-admin'
 import React, { useState, useEffect } from 'react'
 
 import { Form } from './styles'
 
-import BackButton from '../../../UI/BackButton'
 import { MdArrowBack } from 'react-icons/md'
-import handleAddImage from '../../../../utils/handleAddImage'
+
 import axios from 'axios'
+import { MapContainer, TileLayer, useMap } from 'react-leaflet'
+import { LatLngTuple } from 'leaflet'
+import AddMarker from '../../../UI/AddMarker'
+import PositionInputField from '../../../UI/PositionInputField'
+import api from '../../../../services/api'
 
 const DeliveryPointEditActions = (props: EditActionsProps) => {
   return (
@@ -45,8 +41,19 @@ interface UFProps {
   name: string
 }
 
-const DeliveryPointEdit: React.FC = props => {
+const DeliveryPointEdit: React.FC<EditProps> = props => {
   const [ufs, setUfs] = useState<UFProps[]>()
+  const [selectedPosition, setSelectedPosition] = useState<LatLngTuple>([0, 0])
+
+  useEffect(() => {
+    async function fetchLatLng() {
+      const { data } = await api.get(`/delivery-points/${props.id}`)
+
+      setSelectedPosition([data.latitude, data.longitude])
+    }
+
+    fetchLatLng()
+  }, [])
 
   useEffect(() => {
     async function fetchUfs() {
@@ -68,6 +75,12 @@ const DeliveryPointEdit: React.FC = props => {
     fetchUfs()
   }, [])
 
+  function ChangeView({ center, zoom }) {
+    const map = useMap()
+    map.setView(center, zoom)
+    return null
+  }
+
   return (
     <Edit
       {...props}
@@ -82,6 +95,30 @@ const DeliveryPointEdit: React.FC = props => {
         <TextInput source="street" label="Rua" />
         <NumberInput source="number" label="Número" min={1} />
         <TextInput source="cep" label="CEP" />
+        <MapContainer center={selectedPosition} zoom={13} fullwidth>
+          <ChangeView center={selectedPosition} zoom={13} />
+          <TileLayer
+            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <AddMarker
+            name="position"
+            source="latitude"
+            isRequired
+            position={selectedPosition}
+            setPosition={setSelectedPosition}
+          />
+        </MapContainer>
+        <PositionInputField
+          source="latitude"
+          name="latitude"
+          position={selectedPosition[0]}
+        />
+        <PositionInputField
+          source="longitude"
+          name="longitude"
+          position={selectedPosition[1]}
+        />
       </Form>
     </Edit>
   )
