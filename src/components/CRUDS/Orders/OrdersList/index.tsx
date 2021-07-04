@@ -23,11 +23,9 @@ import UserField from '../../../UI/UserField'
 import DeliveryPointField from '../../../UI/DeliveryPointField'
 import ProductsField from '../../../UI/ProductsField'
 
-import {
-  translatePaymentStatus,
-  translatePaymentType,
-  translateSalesType
-} from '../../../../utils/translate'
+import { translatePaymentType } from '../../../../utils/translate/translatePaymentType'
+import { translatePaymentStatus } from '../../../../utils/translate/translatePaymentStatus'
+import { translateSalesType } from '../../../../utils/translate/translateSalesType'
 
 import { DetailsContainer, Detail } from './styles'
 import formatDate from '../../../../utils/formatDate'

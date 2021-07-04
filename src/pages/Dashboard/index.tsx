@@ -28,6 +28,9 @@ import DeliveryPointCreate from '../../components/CRUDS/DeliveryPoints/DeliveryP
 import DeliveryPointEdit from '../../components/CRUDS/DeliveryPoints/DeliveryPointEdit'
 import DeliveryPointShow from '../../components/CRUDS/DeliveryPoints/DeliveryPointShow'
 
+import ListsList from '../../components/CRUDS/Lists/ListstList'
+import ListCreate from '../../components/CRUDS/Lists/ListCreate'
+
 import authProvider from '../../providers/authProvider'
 import LoginPage from '../../pages/Login'
 
@@ -72,9 +75,11 @@ const Dashboard: React.FC = () => {
         options={{ label: 'Pontos de entrega' }}
       />
       <Resource
-        name="weekly-offer"
+        name="lists"
+        list={ListsList}
+        create={ListCreate}
         icon={FaCalendarAlt}
-        options={{ label: 'Oferta semanal' }}
+        options={{ label: 'Ofertas semanais' }}
       />
       <Resource
         name="providers"

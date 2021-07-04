@@ -14,10 +14,11 @@ const customDataProvider = (
   getList: async (resource, params) => {
     const token = Cookie.get('token')
 
+    const { filter } = params.filter
     const { page, perPage } = params.pagination
 
     const { data } = await api.get(
-      `/${resource}?page=${page}&limit=${perPage}`,
+      `/${resource}?page=${page}&limit=${perPage}${filter ? `&${filter}` : ''}`,
       {
         headers: { Authorization: `Bearer ${token}` }
       }
@@ -101,6 +102,20 @@ const customDataProvider = (
         return {
           data,
           image
+        }
+      }
+
+      case 'lists': {
+        const formData = Object.assign({ status: 'created' }, params.data)
+
+        console.log(formData)
+
+        const { data } = await api.post(`/${resource}`, formData, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+
+        return {
+          data
         }
       }
 

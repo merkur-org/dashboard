@@ -30,6 +30,7 @@ const DeliveryPointShow: React.FC = props => {
         <TextField source="suburb" label="Bairro" />
         <TextField source="street" label="Rua" />
         <NumberField source="number" label="Número" />
+        <TextField source="cep" label="CEP" />
       </ShowData>
     </Show>
   )
