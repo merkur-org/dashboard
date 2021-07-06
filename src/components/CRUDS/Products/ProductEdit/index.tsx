@@ -48,8 +48,6 @@ const ProductEdit: React.FC = props => {
       title={<ProductEditTitle />}
       actions={<ProductEditActions />}
       onSuccess={formData => {
-        console.log(formData)
-
         handleAddImage(formData)
         redirect('/products')
         refresh()

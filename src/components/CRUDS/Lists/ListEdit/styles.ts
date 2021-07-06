@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { TabbedForm } from 'react-admin'
+import { SimpleForm, TabbedForm } from 'react-admin'
 import { breakPoints } from '../../../../styles/constants'
 
-export const Form = styled(TabbedForm)`
+export const Form = styled(SimpleForm)`
   @media ${breakPoints.tablet} {
     div:nth-child(3) span {
       display: grid;

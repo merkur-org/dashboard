@@ -30,6 +30,7 @@ import DeliveryPointShow from '../../components/CRUDS/DeliveryPoints/DeliveryPoi
 
 import ListsList from '../../components/CRUDS/Lists/ListstList'
 import ListCreate from '../../components/CRUDS/Lists/ListCreate'
+import ListEdit from '../../components/CRUDS/Lists/ListEdit'
 
 import authProvider from '../../providers/authProvider'
 import LoginPage from '../../pages/Login'
@@ -78,18 +79,9 @@ const Dashboard: React.FC = () => {
         name="lists"
         list={ListsList}
         create={ListCreate}
+        edit={ListEdit}
         icon={FaCalendarAlt}
         options={{ label: 'Ofertas semanais' }}
-      />
-      <Resource
-        name="providers"
-        icon={FaTruck}
-        options={{ label: 'Oferta semanal' }}
-      />
-      <Resource
-        name="providers"
-        icon={FaClipboard}
-        options={{ label: 'Oferta semanal' }}
       />
     </Admin>
   )

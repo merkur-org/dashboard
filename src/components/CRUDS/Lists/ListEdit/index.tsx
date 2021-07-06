@@ -5,18 +5,16 @@ import {
   ListButton,
   Toolbar,
   TitleProps,
-  useTranslate,
-  TabbedForm,
-  FormTab,
-  ImageInput,
-  ImageField,
-  BooleanInput,
+  DateInput,
   CloneButton,
   EditActionsProps,
-  useRefresh,
-  useRedirect
+  required,
+  ArrayInput,
+  ReferenceInput,
+  SimpleFormIterator,
+  NumberInput
 } from 'react-admin'
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Form, BololeanInputsContainer } from './styles'
 
@@ -24,7 +22,9 @@ import BackButton from '../../../UI/BackButton'
 import { MdArrowBack } from 'react-icons/md'
 import handleAddImage from '../../../../utils/handleAddImage'
 
-const ProductEditActions = (props: EditActionsProps) => {
+import { ClearProducts } from '../ListCreate'
+
+const ListEditActions = (props: EditActionsProps) => {
   return (
     <Toolbar>
       <ListButton label="voltar" icon={<MdArrowBack />} />
@@ -33,64 +33,152 @@ const ProductEditActions = (props: EditActionsProps) => {
   )
 }
 
-const ProductEditTitle = ({ record }: TitleProps) => {
+const ListEditTitle = ({ record }: TitleProps) => {
   return <span> Editar produto {record.name}</span>
 }
 
-const ProductEdit: React.FC = props => {
-  const refresh = useRefresh()
-  const redirect = useRedirect()
+const ListEdit: React.FC = props => {
+  const [listType, setListType] = useState<string>()
+
+  const handleSetListType = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setListType(e.target.value)
+  }
 
   return (
     <Edit
       {...props}
-      title={<ProductEditTitle />}
-      actions={<ProductEditActions />}
-      onSuccess={formData => {
-        console.log(formData)
-
-        handleAddImage(formData)
-        redirect('/products')
-        refresh()
-      }}
+      title={<ListEditTitle />}
+      actions={<ListEditActions />}
       mutationMode="pessimistic"
     >
-      <Form>
-        <FormTab label="Informações do produto">
-          <TextInput source="name" label="Nome" />
-          <TextInput
-            source="cost_price"
-            label="Preço de custo"
-            placeholder="R$"
-          />
-          <TextInput source="fraction_sale" label="Fração de venda" />
-          <TextInput
-            source="sale_price"
-            label="Preço de venda"
-            placeholder="R$"
-          />
-          <TextInput source="observation" label="Observação" multiline />
-          <TextInput
-            source="nutritional_information"
-            label="Informações nutricionais"
-            multiline
-          />
-          <BololeanInputsContainer>
-            <BooleanInput source="organic" label="Produto é orgânico?" />
-            <BooleanInput
-              source="highlights"
-              label="Colocar produto nos destaques?"
-            />
-          </BololeanInputsContainer>
-        </FormTab>
-        <FormTab label="imagem">
-          <ImageInput source="image" label="Imagem do produto" multiple={false}>
-            <ImageField src="src" />
-          </ImageInput>
-        </FormTab>
+      <Form
+        validate={values => {
+          const errors = {} as any
+
+          if (values['start_date'] && values['end_date']) {
+            const start = new Date(values['start_date'])
+            const end = new Date(values['end_date'])
+
+            if (start.getTime() > end.getTime()) {
+              console.log(start, end)
+              errors['start_date'] =
+                'O início da oferta deve ocorrer antes da data de fim'
+            }
+          }
+
+          return errors
+        }}
+      >
+        <DateInput
+          source="start_date"
+          label="Data de início"
+          autoFocus
+          validate={[required()]}
+        />
+        <DateInput
+          source="end_date"
+          label="Data de início"
+          validate={[required()]}
+        />
+        <SelectInput
+          source="type"
+          label="Tipo da lista"
+          choices={[
+            { id: 'offer', name: 'Oferta' },
+            { id: 'producer', name: 'Produtor' }
+          ]}
+          onChange={handleSetListType}
+          validate={[required()]}
+        />
+        {listType && (
+          <>
+            <ClearProducts state={listType} />
+            <ArrayInput
+              label="Produtos"
+              source="details"
+              validate={[required()]}
+            >
+              <SimpleFormIterator>
+                <ReferenceInput
+                  source="product_id"
+                  reference="products"
+                  label="Produto"
+                >
+                  <SelectInput optionText="name" validate={[required()]} />
+                </ReferenceInput>
+                <DateInput
+                  source="due_date"
+                  label="Data de vencimento"
+                  validate={[required()]}
+                />
+                <NumberInput
+                  source="unit_price"
+                  label="Preço unitário"
+                  placeholder="R$"
+                  min={0}
+                  validate={[required()]}
+                />
+                {listType === 'offer' && (
+                  <TextInput
+                    source="sale_price"
+                    label="Preço de venda"
+                    placeholder="R$"
+                    validate={[required()]}
+                  />
+                )}
+                {listType === 'offer' && (
+                  <NumberInput
+                    source="quantity_total"
+                    label="Quantidade total"
+                    min={0}
+                    validate={[required()]}
+                  />
+                )}
+                {listType === 'offer' && (
+                  <NumberInput
+                    source="quantity_stock"
+                    label="Quantidade em estoque"
+                    min={0}
+                    validate={[required()]}
+                  />
+                )}
+                {listType === 'producer' && (
+                  <NumberInput
+                    source="quantity"
+                    label="Quantidade"
+                    min={0}
+                    validate={[required()]}
+                  />
+                )}
+                {listType === 'producer' && (
+                  <NumberInput
+                    source="discount"
+                    label="Desconto"
+                    min={0}
+                    validate={[required()]}
+                  />
+                )}
+                {listType === 'producer' && (
+                  <NumberInput
+                    source="total_price"
+                    label="Preço total"
+                    validate={[required()]}
+                  />
+                )}
+                {listType === 'producer' && (
+                  <TextInput
+                    source="lot"
+                    label="Lote"
+                    validate={[required()]}
+                  />
+                )}
+              </SimpleFormIterator>
+            </ArrayInput>
+          </>
+        )}
       </Form>
     </Edit>
   )
 }
 
-export default ProductEdit
+export default ListEdit

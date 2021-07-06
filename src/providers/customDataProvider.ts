@@ -37,6 +37,8 @@ const customDataProvider = (
       headers: { Authorization: `Bearer ${token}` }
     })
 
+    console.log(data)
+
     return {
       data
     }
