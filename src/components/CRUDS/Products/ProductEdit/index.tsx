@@ -5,8 +5,6 @@ import {
   ListButton,
   Toolbar,
   TitleProps,
-  useTranslate,
-  TabbedForm,
   FormTab,
   ImageInput,
   ImageField,
@@ -21,7 +19,6 @@ import React from 'react'
 import { Form, BololeanInputsContainer } from './styles'
 
 import { categories, units } from '../ProductsSelect'
-import BackButton from '../../../UI/BackButton'
 import { MdArrowBack } from 'react-icons/md'
 import handleAddImage from '../../../../utils/handleAddImage'
 

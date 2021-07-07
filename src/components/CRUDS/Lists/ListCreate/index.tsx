@@ -1,5 +1,4 @@
-import Cookies from 'js-cookie'
-import React, { useState, useCallback, useEffect, useContext } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import {
   Create,
   TextInput,
@@ -12,16 +11,15 @@ import {
   SimpleFormIterator,
   ReferenceInput,
   NumberInput,
-  FunctionField,
   required,
   ButtonProps,
   Button
 } from 'react-admin'
-import { MdArrowBack, MdDelete } from 'react-icons/md'
+import { MdArrowBack } from 'react-icons/md'
 
-import { Form, BololeanInputsContainer } from './styles'
-import handleAddImage from '../../../../utils/handleAddImage'
+import { Form } from './styles'
 import { useForm } from 'react-final-form'
+import { listTypes } from '../listTypes'
 
 const ListCreateActions: React.FC = props => {
   return (
@@ -105,10 +103,7 @@ const ListCreate: React.FC<CreateProps> = props => {
           <SelectInput
             source="type"
             label="Tipo da lista"
-            choices={[
-              { id: 'offer', name: 'Oferta' },
-              { id: 'producer', name: 'Produtor' }
-            ]}
+            choices={listTypes}
             onChange={handleSetListType}
             validate={[required()]}
           />

@@ -33,14 +33,31 @@ const customDataProvider = (
   getOne: async (resource, params) => {
     const token = Cookie.get('token')
 
-    const { data } = await api.get(`/${resource}/${params.id}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
+    switch (resource) {
+      case 'lists': {
+        const { data } = await api.get(`/${resource}/${params.id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
 
-    console.log(data)
+        const { list, details } = data
 
-    return {
-      data
+        return {
+          data: {
+            ...list,
+            details
+          }
+        }
+      }
+
+      default: {
+        const { data } = await api.get(`/${resource}/${params.id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+
+        return {
+          data
+        }
+      }
     }
   },
 

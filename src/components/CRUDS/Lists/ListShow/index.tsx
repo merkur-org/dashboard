@@ -1,12 +1,8 @@
 import {
-  DeleteButton,
   ListButton,
   RichTextField,
-  SelectField,
   ImageField,
   Show,
-  ShowProps,
-  SimpleShowLayout,
   TextField,
   FunctionField
 } from 'ra-ui-materialui'

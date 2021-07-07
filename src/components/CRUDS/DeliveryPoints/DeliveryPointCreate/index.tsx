@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Create,
   TextInput,
@@ -8,11 +8,10 @@ import {
   Toolbar,
   NumberInput
 } from 'react-admin'
-import { Field } from 'react-final-form'
+
 import { MdArrowBack } from 'react-icons/md'
 import axios from 'axios'
-import Cookies from 'js-cookie'
-import { LatLngExpression, LatLngTuple } from 'leaflet'
+import { LatLngTuple } from 'leaflet'
 import { MapContainer, TileLayer } from 'react-leaflet'
 
 import AddMarker from '../../../UI/AddMarker'

@@ -1,4 +1,4 @@
-import IDeliveryPointsDTO from '../dtos/IDeliveryPointsDTO'
+import { IDeliveryPointsDTO } from '../dtos/IDeliveryPointsDTO'
 import api from '../services/api'
 
 const serializeDeliveryPoint = async (

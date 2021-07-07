@@ -7,9 +7,7 @@ import {
   FaShoppingBag,
   FaClipboardList,
   FaMapMarkerAlt,
-  FaCalendarAlt,
-  FaTruck,
-  FaClipboard
+  FaCalendarAlt
 } from 'react-icons/fa'
 
 import dashBoardTheme from '../../styles/dashBoardTheme'

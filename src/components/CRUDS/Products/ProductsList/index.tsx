@@ -1,5 +1,5 @@
 import React, { cloneElement, Children, memo } from 'react'
-import { useMediaQuery, makeStyles } from '@material-ui/core'
+import { useMediaQuery } from '@material-ui/core'
 import { Theme } from '@material-ui/core/styles'
 import {
   Datagrid,

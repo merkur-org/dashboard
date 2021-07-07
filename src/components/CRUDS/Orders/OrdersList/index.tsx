@@ -1,23 +1,15 @@
-import React, { useEffect, useState, Children, cloneElement, memo } from 'react'
+import React, { memo } from 'react'
 import {
   Datagrid,
   DateField,
   List,
   NumberField,
   FunctionField,
-  TextField,
-  TextFieldProps,
-  SimpleList
+  TextField
 } from 'ra-ui-materialui'
 import { useMediaQuery } from '@material-ui/core'
 import { Theme } from '@material-ui/core/styles'
-import {
-  ArrayField,
-  BulkExportButton,
-  DatagridProps,
-  EditButton,
-  ShowButton
-} from 'react-admin'
+import { ArrayField, BulkExportButton } from 'react-admin'
 
 import UserField from '../../../UI/UserField'
 import DeliveryPointField from '../../../UI/DeliveryPointField'
@@ -28,7 +20,6 @@ import { translatePaymentStatus } from '../../../../utils/translate/translatePay
 import { translateSalesType } from '../../../../utils/translate/translateSalesType'
 
 import { DetailsContainer, Detail } from './styles'
-import formatDate from '../../../../utils/formatDate'
 
 const OrdersListBulkActions = memo(({ children, ...props }) => (
   <div>
