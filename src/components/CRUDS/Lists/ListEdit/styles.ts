@@ -4,10 +4,10 @@ import { breakPoints } from '../../../../styles/constants'
 
 export const Form = styled(SimpleForm)`
   @media ${breakPoints.tablet} {
-    div:nth-child(3) span {
+    .MuiCardContent-root,
+    .RaCardContentInner-root-96 {
       display: flex;
       flex-wrap: wrap;
-
       div {
         width: 100%;
       }

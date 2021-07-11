@@ -4,11 +4,24 @@ import {
   ImageField,
   Show,
   TextField,
-  FunctionField
+  FunctionField,
+  NumberField
 } from 'ra-ui-materialui'
 import React from 'react'
-import { ShowActionsProps, TitleProps, Toolbar } from 'react-admin'
+import {
+  ArrayField,
+  Datagrid,
+  DateField,
+  ShowActionsProps,
+  TitleProps,
+  Toolbar
+} from 'react-admin'
 import { MdArrowBack } from 'react-icons/md'
+import formatDate from '../../../../utils/formatDate'
+import { translateListStatus } from '../../../../utils/translate/translateListStatus'
+import { translateListType } from '../../../../utils/translate/translateListType'
+import ProductsField from '../../../UI/ProductsField'
+import UserField from '../../../UI/UserField'
 
 import { ShowData } from './styles'
 
@@ -21,10 +34,14 @@ const ProductShowActions = (props: ShowActionsProps) => {
 }
 
 const ProductShowTitle = ({ record }: TitleProps) => {
-  return <span>{record.name}</span>
+  return (
+    <span>
+      Lista de {formatDate(record.start_date)} à {formatDate(record.end_date)}
+    </span>
+  )
 }
 
-const ProductsShow: React.FC = props => {
+const ListShow: React.FC = props => {
   return (
     <Show
       {...props}
@@ -32,41 +49,40 @@ const ProductsShow: React.FC = props => {
       title={<ProductShowTitle />}
     >
       <ShowData>
-        <ImageField source="image_url" label="" />
-        <TextField source="name" label="Nome" />
-        <FunctionField
-          source="organic"
-          label="Tipo do produto"
-          render={record =>
-            record.organic
-              ? 'Este produto é orgânico'
-              : 'Este produto não é orgânico'
-          }
+        <DateField
+          source="start_date"
+          label="Data de início"
+          sortable={false}
         />
-        <TextField source="category" label="Categoria" />
-        <TextField source="unit_buy" label="Unidade de compra" />
-        <TextField source="unit_sale" label="Unidade de venda" />
+        <DateField source="end_date" label="Data de término" sortable={false} />
+        <UserField source="user_id" label="Usuário" sortable={false} />
         <FunctionField
-          source="cost_price"
-          label="Preço de custo"
-          render={record => `R$ ${record.cost_price.toFixed(2)}`}
+          source="type"
+          label="Tipo"
+          render={record => translateListType(record.type)}
+          sortable={false}
         />
         <FunctionField
-          source="wholesale_price"
-          label="Preço de atacado"
-          render={record => `R$ ${record.wholesale_price.toFixed(2)}`}
+          source="status"
+          label="Status"
+          render={record => translateListStatus(record.status)}
+          sortable={false}
         />
-        <FunctionField
-          source="sale_price"
-          label="Preço de venda"
-          render={record => `R$ ${record.sale_price.toFixed(2)}`}
-        />
-        <TextField source="fraction_buy" label="Fração de compra" />
-        <TextField source="fraction_sale" label="Fração de venda" />
-        <RichTextField source="observation" label="Observação" />
+        <ArrayField source="details">
+          <Datagrid>
+            <ProductsField label="Produtos" source="product_id" />
+            <NumberField label="Quantidade Total" source="quantity_total" />
+            <NumberField
+              label="Quantidade em estoque"
+              source="quantity_stock"
+            />
+            <NumberField label="Preço unitário" source="unit_price" />
+            <NumberField label="Preço unitário" source="unit_price" />
+          </Datagrid>
+        </ArrayField>
       </ShowData>
     </Show>
   )
 }
 
-export default ProductsShow
+export default ListShow

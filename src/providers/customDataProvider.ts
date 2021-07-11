@@ -1,11 +1,8 @@
-import { clear } from 'console'
-import { Http2ServerRequest } from 'http2'
 import Cookie from 'js-cookie'
-import { stringify } from 'querystring'
 import { DataProvider, fetchUtils } from 'ra-core'
-import { useParams } from 'react-router-dom'
-import { IProductsDTO } from '../dtos/IProductsDTO'
+import { queryReducer } from 'react-admin'
 import api from '../services/api'
+import { buildQuery } from '../utils/buildQuery'
 
 const customDataProvider = (
   apiUrl: string,
@@ -14,11 +11,17 @@ const customDataProvider = (
   getList: async (resource, params) => {
     const token = Cookie.get('token')
 
-    const { filter } = params.filter
+    const { filter } = params
     const { page, perPage } = params.pagination
 
+    console.log(filter)
+
+    const filters = buildQuery(filter)
+
     const { data } = await api.get(
-      `/${resource}?page=${page}&limit=${perPage}${filter ? `&${filter}` : ''}`,
+      `/${resource}?page=${page}&limit=${perPage}${
+        filters.length !== 0 ? filters : ''
+      }`,
       {
         headers: { Authorization: `Bearer ${token}` }
       }

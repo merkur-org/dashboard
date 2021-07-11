@@ -9,7 +9,14 @@ import {
   ShowButton,
   FunctionField
 } from 'ra-ui-materialui'
-import { BulkExportButton, BulkDeleteButton, DateField } from 'react-admin'
+import {
+  BulkExportButton,
+  BulkDeleteButton,
+  DateField,
+  TextInput,
+  Filter,
+  TextField
+} from 'react-admin'
 
 import { ListsListActions } from './styles'
 import UserField from '../../../UI/UserField'
@@ -32,12 +39,21 @@ const ListsListBulkActions = memo(({ children, ...props }) => (
   </div>
 ))
 
+// const ListsFilter = props => {
+//   return (
+//     <Filter {...props}>
+//       <TextInput label="Oferta" source="type=offer" />
+//       {/* <TextInput label="Produtor" source="type" value="producer" /> */}
+//     </Filter>
+//   )
+// }
+
 const ListsList: React.FC = props => {
   const isSmall = useMediaQuery<Theme>(theme => theme.breakpoints.down('sm'))
 
   return (
     <List
-      filter={{ filter: 'type=offer' }}
+      filter={{ type: 'offer' }}
       bulkActionButtons={<ListsListBulkActions />}
       {...props}
     >
@@ -60,6 +76,7 @@ const ListsList: React.FC = props => {
             sortable={false}
           />
           <UserField source="user_id" label="Usuário" sortable={false} />
+          <TextField source="type" label="Tipo" sortable={false} />
           <FunctionField
             source="status"
             label="Status"

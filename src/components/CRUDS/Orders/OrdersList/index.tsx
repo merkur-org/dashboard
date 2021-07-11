@@ -5,11 +5,13 @@ import {
   List,
   NumberField,
   FunctionField,
-  TextField
+  TextField,
+  TextInput,
+  DateInput
 } from 'ra-ui-materialui'
 import { useMediaQuery } from '@material-ui/core'
 import { Theme } from '@material-ui/core/styles'
-import { ArrayField, BulkExportButton } from 'react-admin'
+import { ArrayField, BulkExportButton, Filter } from 'react-admin'
 
 import UserField from '../../../UI/UserField'
 import DeliveryPointField from '../../../UI/DeliveryPointField'
@@ -79,11 +81,32 @@ const OrderExpandPanel = ({ isSmall, ...props }) => {
   )
 }
 
+const OrdersFilter = props => {
+  return (
+    <Filter {...props}>
+      <DateInput
+        label="Procurar"
+        format={(value: string) => new Date(value)}
+        source="date"
+        alwaysOn
+      />
+      {/* <TextInput label="Data do pedido" source="date" />
+      <TextInput label="Última semana" source="date" />
+      <TextInput label="Últimos 15 dias" source="date" />
+      <TextInput label="Último mês" source="date" /> */}
+    </Filter>
+  )
+}
+
 const OrdersList: React.FC = props => {
   const isSmall = useMediaQuery<Theme>(theme => theme.breakpoints.down('sm'))
 
   return (
-    <List {...props} bulkActionButtons={<OrdersListBulkActions />}>
+    <List
+      filters={<OrdersFilter />}
+      bulkActionButtons={<OrdersListBulkActions />}
+      {...props}
+    >
       <Datagrid expand={<OrderExpandPanel isSmall={isSmall} />}>
         <DateField source="date" label="Data do pedido" sortable={false} />
         <UserField source="user_id" label="Usuário" sortable={false} />

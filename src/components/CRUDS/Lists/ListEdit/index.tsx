@@ -73,6 +73,9 @@ const ListEdit: React.FC<EditProps> = props => {
 
           return errors
         }}
+        initialValues={values => {
+          setListType(values.type)
+        }}
       >
         <DateInput
           source="start_date"

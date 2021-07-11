@@ -29,6 +29,7 @@ import DeliveryPointShow from '../../components/CRUDS/DeliveryPoints/DeliveryPoi
 import ListsList from '../../components/CRUDS/Lists/ListstList'
 import ListCreate from '../../components/CRUDS/Lists/ListCreate'
 import ListEdit from '../../components/CRUDS/Lists/ListEdit'
+import ListShow from '../../components/CRUDS/Lists/ListShow'
 
 import authProvider from '../../providers/authProvider'
 import LoginPage from '../../pages/Login'
@@ -78,6 +79,7 @@ const Dashboard: React.FC = () => {
         list={ListsList}
         create={ListCreate}
         edit={ListEdit}
+        show={ListShow}
         icon={FaCalendarAlt}
         options={{ label: 'Ofertas semanais' }}
       />
