@@ -3,13 +3,6 @@ import { SimpleShowLayout } from 'ra-ui-materialui'
 import { breakPoints } from '../../../../styles/constants'
 
 export const ShowData = styled(SimpleShowLayout)`
-  img {
-    border-radius: 16px;
-    width: 220px;
-    height: 176px;
-    object-fit: cover;
-  }
-
   div {
     div {
       padding: 0;

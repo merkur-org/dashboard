@@ -84,16 +84,7 @@ const OrderExpandPanel = ({ isSmall, ...props }) => {
 const OrdersFilter = props => {
   return (
     <Filter {...props}>
-      <DateInput
-        label="Procurar"
-        format={(value: string) => new Date(value)}
-        source="date"
-        alwaysOn
-      />
-      {/* <TextInput label="Data do pedido" source="date" />
-      <TextInput label="Última semana" source="date" />
-      <TextInput label="Últimos 15 dias" source="date" />
-      <TextInput label="Último mês" source="date" /> */}
+      <DateInput label="Procurar" source="date" alwaysOn placeholder="" />
     </Filter>
   )
 }

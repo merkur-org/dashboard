@@ -7,7 +7,7 @@ import {
   FunctionField,
   NumberField
 } from 'ra-ui-materialui'
-import React from 'react'
+import React, { useState } from 'react'
 import {
   ArrayField,
   Datagrid,
@@ -42,45 +42,108 @@ const ProductShowTitle = ({ record }: TitleProps) => {
 }
 
 const ListShow: React.FC = props => {
+  const [listType, setListType] = useState<string>()
+
   return (
     <Show
       {...props}
       actions={<ProductShowActions />}
       title={<ProductShowTitle />}
     >
-      <ShowData>
-        <DateField
-          source="start_date"
-          label="Data de início"
-          sortable={false}
-        />
-        <DateField source="end_date" label="Data de término" sortable={false} />
-        <UserField source="user_id" label="Usuário" sortable={false} />
-        <FunctionField
-          source="type"
-          label="Tipo"
-          render={record => translateListType(record.type)}
-          sortable={false}
-        />
-        <FunctionField
-          source="status"
-          label="Status"
-          render={record => translateListStatus(record.status)}
-          sortable={false}
-        />
+      <>
+        <ShowData>
+          <DateField
+            source="start_date"
+            label="Data de início"
+            sortable={false}
+          />
+          <DateField
+            source="end_date"
+            label="Data de término"
+            sortable={false}
+          />
+          <FunctionField
+            source="type"
+            label="Tipo"
+            render={record => {
+              setListType(record.type)
+              return translateListType(record.type)
+            }}
+            sortable={false}
+          />
+          <FunctionField
+            source="status"
+            label="Status"
+            render={record => translateListStatus(record.status)}
+            sortable={false}
+          />
+        </ShowData>
         <ArrayField source="details">
           <Datagrid>
-            <ProductsField label="Produtos" source="product_id" />
-            <NumberField label="Quantidade Total" source="quantity_total" />
-            <NumberField
-              label="Quantidade em estoque"
-              source="quantity_stock"
+            <ProductsField
+              source="product_id"
+              label="Produto"
+              sortable={false}
             />
-            <NumberField label="Preço unitário" source="unit_price" />
-            <NumberField label="Preço unitário" source="unit_price" />
+            <DateField
+              source="due_date"
+              label="Data de vencimento"
+              sortable={false}
+            />
+            <NumberField
+              source="unit_price"
+              label="Preço unitário"
+              sortable={false}
+            />
+            {listType === 'offer' && (
+              <TextField
+                source="sale_price"
+                label="Preço de venda"
+                placeholder="R$"
+                sortable={false}
+              />
+            )}
+            {listType === 'offer' && (
+              <NumberField
+                source="quantity_total"
+                label="Quantidade total"
+                sortable={false}
+              />
+            )}
+            {listType === 'offer' && (
+              <NumberField
+                source="quantity_stock"
+                label="Quantidade em estoque"
+                sortable={false}
+              />
+            )}
+            {listType === 'producer' && (
+              <NumberField
+                source="quantity"
+                label="Quantidade"
+                sortable={false}
+              />
+            )}
+            {listType === 'producer' && (
+              <NumberField
+                source="discount"
+                label="Desconto"
+                sortable={false}
+              />
+            )}
+            {listType === 'producer' && (
+              <NumberField
+                source="total_price"
+                label="Preço total"
+                sortable={false}
+              />
+            )}
+            {listType === 'producer' && (
+              <TextField source="lot" label="Lote" sortable={false} />
+            )}
           </Datagrid>
         </ArrayField>
-      </ShowData>
+      </>
     </Show>
   )
 }

@@ -1,5 +1,5 @@
 import React, { cloneElement, Children, memo } from 'react'
-import { useMediaQuery } from '@material-ui/core'
+import { useMediaQuery, Chip, CardContent } from '@material-ui/core'
 import { Theme } from '@material-ui/core/styles'
 import {
   Datagrid,
@@ -7,7 +7,10 @@ import {
   SimpleList,
   EditButton,
   ShowButton,
-  FunctionField
+  FunctionField,
+  ChipField,
+  FilterList,
+  FilterListItem
 } from 'ra-ui-materialui'
 import {
   BulkExportButton,
@@ -15,14 +18,21 @@ import {
   DateField,
   TextInput,
   Filter,
-  TextField
+  TextField,
+  BooleanInput,
+  SimpleForm,
+  SelectInput,
+  RadioButtonGroupInput
 } from 'react-admin'
 
-import { ListsListActions } from './styles'
+import { ListsListActions, Card } from './styles'
 import UserField from '../../../UI/UserField'
 
 import formatDate from '../../../../utils/formatDate'
 import { translateListStatus } from '../../../../utils/translate/translateListStatus'
+import { translateListType } from '../../../../utils/translate/translateListType'
+import { useState } from 'react'
+import { listTypes } from '../listTypes'
 
 const ListsListActionToolbar = ({ children, ...props }) => {
   return (
@@ -39,22 +49,31 @@ const ListsListBulkActions = memo(({ children, ...props }) => (
   </div>
 ))
 
-// const ListsFilter = props => {
-//   return (
-//     <Filter {...props}>
-//       <TextInput label="Oferta" source="type=offer" />
-//       {/* <TextInput label="Produtor" source="type" value="producer" /> */}
-//     </Filter>
-//   )
-// }
+const ListsFilter = props => {
+  return (
+    <Filter {...props}>
+      <RadioButtonGroupInput
+        source="type"
+        alwaysOn
+        label=""
+        choices={listTypes}
+        onChange={e => {
+          props.setListType({ type: e })
+        }}
+      />
+    </Filter>
+  )
+}
 
 const ListsList: React.FC = props => {
+  const [listType, setListType] = useState({ type: 'offer' })
   const isSmall = useMediaQuery<Theme>(theme => theme.breakpoints.down('sm'))
 
   return (
     <List
-      filter={{ type: 'offer' }}
       bulkActionButtons={<ListsListBulkActions />}
+      filter={listType}
+      filters={<ListsFilter setListType={setListType} />}
       {...props}
     >
       {isSmall ? (
@@ -76,7 +95,12 @@ const ListsList: React.FC = props => {
             sortable={false}
           />
           <UserField source="user_id" label="Usuário" sortable={false} />
-          <TextField source="type" label="Tipo" sortable={false} />
+          <FunctionField
+            source="type"
+            label="Tipo"
+            render={record => translateListType(record.type)}
+            sortable={false}
+          />
           <FunctionField
             source="status"
             label="Status"

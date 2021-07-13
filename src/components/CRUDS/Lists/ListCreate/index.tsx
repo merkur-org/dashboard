@@ -123,11 +123,6 @@ const ListCreate: React.FC<CreateProps> = props => {
                   >
                     <SelectInput optionText="name" validate={[required()]} />
                   </ReferenceInput>
-                  <DateInput
-                    source="due_date"
-                    label="Data de vencimento"
-                    validate={[required()]}
-                  />
                   <NumberInput
                     source="unit_price"
                     label="Preço unitário"
@@ -156,6 +151,13 @@ const ListCreate: React.FC<CreateProps> = props => {
                       source="quantity_stock"
                       label="Quantidade em estoque"
                       min={0}
+                      validate={[required()]}
+                    />
+                  )}
+                  {listType === 'producer' && (
+                    <DateInput
+                      source="due_date"
+                      label="Data de vencimento"
                       validate={[required()]}
                     />
                   )}
