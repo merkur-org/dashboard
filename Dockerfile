@@ -13,6 +13,7 @@ RUN yarn build
 
 FROM nginx:1.17-alpine
 
+ENV NGINX_PORT=8000
 # copy from build image
 COPY --from=BUILD_IMAGE /app/build /usr/share/nginx/html
 
