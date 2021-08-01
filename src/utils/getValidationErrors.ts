@@ -8,7 +8,8 @@ export default function getValidationErrors(err: ValidationError): Errors {
   const validationErrors: Errors = {}
 
   err.inner.forEach(error => {
-    validationErrors[error.path] = error.message
+    const id = Date.now().toString()
+    validationErrors[error?.path || id] = error.message
   })
 
   return validationErrors

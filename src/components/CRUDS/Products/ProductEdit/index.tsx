@@ -35,7 +35,7 @@ const ProductEditActions = (props: EditActionsProps) => {
 }
 
 const ProductEditTitle = ({ record }: TitleProps) => {
-  return <span> Editar produto {record.name}</span>
+  return <span> Editar produto {record ? record.name : ''}</span>
 }
 
 const ProductEdit: React.FC = props => {

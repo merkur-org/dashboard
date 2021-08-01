@@ -16,13 +16,12 @@ import { BulkExportButton, BulkDeleteButton } from 'react-admin'
 
 import { ProductListActions } from './styles'
 
-const ProductsListActionToolbar = ({ children, ...props }) => {
-  return (
-    <ProductListActions>
-      {Children.map(children, button => cloneElement(button, props))}
-    </ProductListActions>
-  )
-}
+const ProductsListActionToolbar = memo(({ children }) => (
+  <ProductListActions>
+    {children}
+    {/* {Children.map(children, button => cloneElement(button, props))} */}
+  </ProductListActions>
+))
 
 const ProductsListBulkActions = memo(({ children, ...props }) => (
   <div>
@@ -38,8 +37,8 @@ const ProductsList: React.FC = props => {
     <List {...props} bulkActionButtons={<ProductsListBulkActions />}>
       {isSmall ? (
         <SimpleList
-          primaryText={record => record.name}
-          tertiaryText={record => record.category}
+          primaryText={(record: any) => record.name}
+          tertiaryText={(record: any) => record.category}
         />
       ) : (
         <Datagrid rowClick="edit" optimized>
@@ -73,13 +72,13 @@ const ProductsList: React.FC = props => {
           <FunctionField
             source="cost_price"
             label="Preço de compra"
-            render={record => `R$${record.cost_price.toFixed(2)}`}
+            render={(record: any) => `R$${record.cost_price.toFixed(2)}`}
             sortable={false}
           />
           <FunctionField
             source="sale_price"
             label="Preço de venda"
-            render={record => `R$${record.sale_price.toFixed(2)}`}
+            render={(record: any) => `R$${record.sale_price.toFixed(2)}`}
             sortable={false}
           />
           <BooleanField source="organic" label="Orgânico" sortable={false} />

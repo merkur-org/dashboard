@@ -16,7 +16,7 @@ export const translatePaymentType = (type: string): string => {
       return 'Transferência Bancária'
 
     default:
-      return null
+      return ''
   }
 }
 
@@ -38,7 +38,7 @@ export const translatePaymentStatus = (type: string): string => {
       return 'Pago'
 
     default:
-      return null
+      return ''
   }
 }
 
@@ -51,6 +51,6 @@ export const translateSalesType = (type: string): string => {
       return 'Varejo'
 
     default:
-      return null
+      return ''
   }
 }

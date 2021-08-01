@@ -19,7 +19,7 @@ export interface User {
 
 interface AuthContextData {
   login(credentials: SignInCredentials): Promise<any>
-  checkError({ message: string, status: number, body: Object }): Promise<void>
+  checkError: (error: any) => Promise<void>
   checkAuth(): Promise<void>
   logout(): Promise<string | false | void>
   getIdentity(): Promise<UserIdentity>
@@ -60,7 +60,7 @@ const authProvider: AuthContextData = {
   },
 
   getIdentity: async () => {
-    const user: User = JSON.parse(Cookie.get('user'))
+    const user: User = JSON.parse(Cookie.get('user') || '')
     return { id: user.id }
   },
 

@@ -1,8 +1,5 @@
 import { Admin, Resource } from 'react-admin'
 
-import ptBrMessages from 'ra-language-pt-br'
-import polyglotI18nProvider from 'ra-i18n-polyglot'
-
 import { FaShoppingBag, FaClipboardList, FaMapMarkerAlt } from 'react-icons/fa'
 import { createMuiTheme } from '@material-ui/core'
 
@@ -42,18 +39,11 @@ const dashBoardTheme = createMuiTheme({
 })
 
 const Dashboard: React.FC = () => {
-  const messages = {
-    'pt-br': ptBrMessages
-  }
-
-  const i18nProvider = polyglotI18nProvider(locale => messages[locale], 'pt-br')
-
   return (
     <Admin
       dataProvider={customDataProvider('http://localhost:3333/api')}
       authProvider={authProvider}
       loginPage={LoginPage}
-      i18nProvider={i18nProvider}
       theme={dashBoardTheme}
       title="Merkur Admin"
     >

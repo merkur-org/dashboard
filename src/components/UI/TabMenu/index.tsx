@@ -29,7 +29,7 @@ const TabMenu: React.FC<ButtonsProps> = ({ buttons }) => {
     const selectedOne = buttons.find(
       button => button.name === event.target.name
     )
-    selectedOne.setIsSelected(true)
+    if (selectedOne) selectedOne.setIsSelected(true)
   }, [])
 
   return (

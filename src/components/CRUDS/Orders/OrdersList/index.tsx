@@ -31,6 +31,7 @@ import {
 } from '../../../../utils/translate'
 
 import { OrdersListActions } from './styles'
+import { FC } from 'react'
 
 export const UserField: React.FC<TextFieldProps> = props => {
   const record = useRecordContext(props)
@@ -69,13 +70,12 @@ const DeliveryPointField: React.FC<TextFieldProps> = props => {
   return <p>{deliveryPoint}</p>
 }
 
-const OrdersListActionToolbar = ({ children, ...props }) => {
-  return (
-    <OrdersListActions>
-      {Children.map(children, button => cloneElement(button, props))}
-    </OrdersListActions>
-  )
-}
+const OrdersListActionToolbar = memo(({ children }) => (
+  <OrdersListActions>
+    {children}
+    {/* {Children.map(children, button => cloneElement(button, props))} */}
+  </OrdersListActions>
+))
 
 const OrdersListBulkActions = memo(({ children, ...props }) => (
   <div>
@@ -83,7 +83,11 @@ const OrdersListBulkActions = memo(({ children, ...props }) => (
   </div>
 ))
 
-const OrderExpandPanel = ({ record }) => {
+interface IOrderExpandPanel {
+  record: any
+}
+
+const OrderExpandPanel: FC<IOrderExpandPanel> = ({ record }) => {
   console.log(record.record.details)
 
   return (
@@ -113,7 +117,7 @@ const OrdersList: React.FC = props => {
             <FunctionField
               source="final_value"
               record={record}
-              render={record => (
+              render={(record: any) => (
                 <strong>R$ {record.final_value.toFixed(2)} </strong>
               )}
             />
@@ -126,31 +130,35 @@ const OrdersList: React.FC = props => {
           <FunctionField
             source="payment_type"
             label="Tipo de pagamento"
-            render={record => translatePaymentType(record.payment_type)}
+            render={(record: any) => translatePaymentType(record.payment_type)}
             sortable={false}
           />
           <FunctionField
             source="payment_status"
             label="Status do pagamento"
-            render={record => translatePaymentStatus(record.payment_status)}
+            render={(record: any) =>
+              translatePaymentStatus(record.payment_status)
+            }
             sortable={false}
           />
           <FunctionField
             source="sales_type"
             label="Tipo de compra"
-            render={record => translateSalesType(record.sales_type)}
+            render={(record: any) => translateSalesType(record.sales_type)}
             sortable={false}
           />
           <FunctionField
             source="value"
             label="Valor"
-            render={record => <strong>R$ {record.value.toFixed(2)}</strong>}
+            render={(record: any) => (
+              <strong>R$ {record.value.toFixed(2)}</strong>
+            )}
             sortable={false}
           />
           <FunctionField
             source="final_value"
             label="Valor final"
-            render={record => (
+            render={(record: any) => (
               <strong>R$ {record.final_value.toFixed(2)} </strong>
             )}
             sortable={false}
