@@ -41,7 +41,9 @@ const dashBoardTheme = createMuiTheme({
 const Dashboard: React.FC = () => {
   return (
     <Admin
-      dataProvider={customDataProvider('http://localhost:3333/api')}
+      dataProvider={customDataProvider(
+        process.env.REACT_APP_API || 'http://localhost:3333/api'
+      )}
       authProvider={authProvider}
       loginPage={LoginPage}
       theme={dashBoardTheme}
