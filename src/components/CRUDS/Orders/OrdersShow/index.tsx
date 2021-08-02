@@ -9,7 +9,7 @@ import {
 } from 'react-admin'
 import { MdArrowBack } from 'react-icons/md'
 
-import { UserField } from '../OrdersList'
+import UserField from '../../../Dashboard/UserField'
 
 import serializeDeliveryPoint from '../../../../utils/serializeDeliveryPoint'
 import {

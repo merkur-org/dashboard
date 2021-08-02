@@ -19,7 +19,13 @@ const DeliveryPointShow: React.FC<ShowProps> = props => {
     <Show
       {...props}
       actions={<DeliveryPointShowActions />}
-      title={<CrudTitle content="Ponto de entrega" />}
+      title={
+        <CrudTitle
+          contentWithRecord={record => {
+            return 'Ponto de entrega'
+          }}
+        />
+      }
     >
       <ShowData>
         <TextField source="city" label="Cidade" />
