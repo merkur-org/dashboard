@@ -104,7 +104,7 @@ const OrdersList: React.FC<ListProps> = props => {
           <FunctionField
             source="payment_type"
             label="Tipo de pagamento"
-            render={record => translatePaymentType(record.payment_type)}
+            render={(record: any) => translatePaymentType(record.payment_type)}
             sortable={false}
           />
         )}
@@ -112,7 +112,9 @@ const OrdersList: React.FC<ListProps> = props => {
           <FunctionField
             source="payment_status"
             label="Status do pagamento"
-            render={record => translatePaymentStatus(record.payment_status)}
+            render={(record: any) =>
+              translatePaymentStatus(record.payment_status)
+            }
             sortable={false}
           />
         )}
@@ -120,7 +122,7 @@ const OrdersList: React.FC<ListProps> = props => {
           <FunctionField
             source="sales_type"
             label="Tipo de compra"
-            render={record => translateSalesType(record.sales_type)}
+            render={(record: any) => translateSalesType(record.sales_type)}
             sortable={false}
           />
         )}
@@ -128,7 +130,9 @@ const OrdersList: React.FC<ListProps> = props => {
           <FunctionField
             source="value"
             label="Valor"
-            render={record => <strong>R$ {record.value.toFixed(2)}</strong>}
+            render={(record: any) => (
+              <strong>R$ {record.value.toFixed(2)}</strong>
+            )}
             sortable={false}
           />
         )}

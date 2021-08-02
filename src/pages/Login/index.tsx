@@ -49,7 +49,10 @@ const LoginPage: React.FC = () => {
   const formRef = useRef<FormHandles>(null)
   const handleSubmit = useCallback(async (formData: formProps) => {
     try {
-      const data = await validateLogin(formData, formRef) // validar o formulário
+      const data = await validateLogin(
+        formData,
+        formRef as React.MutableRefObject<FormHandles>
+      ) // validar o formulário
       if (data) {
         setIsLoading(true)
 
@@ -57,9 +60,10 @@ const LoginPage: React.FC = () => {
         history.push('/')
       }
     } catch (err) {
-      formRef.current.setErrors(err)
-      setErrors(err)
-
+      if (formRef) {
+        formRef?.current?.setErrors(err)
+        setErrors(err)
+      }
       setIsLoading(false)
     }
   }, [])
@@ -144,7 +148,7 @@ const LoginPage: React.FC = () => {
         <ModalMessage
           message="Ocorreu um erro tente novamente"
           type="error"
-          open={errors}
+          open={!!errors}
         />
       )}
     </>

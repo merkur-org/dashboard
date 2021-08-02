@@ -1,4 +1,4 @@
-import { RefObject, MutableRefObject } from 'react'
+import { MutableRefObject } from 'react'
 import { FormHandles } from '@unform/core'
 import * as Yup from 'yup'
 

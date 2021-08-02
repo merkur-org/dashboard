@@ -41,18 +41,13 @@ import authProvider from '../../providers/authProvider'
 import LoginPage from '../../pages/Login'
 
 const Dashboard: React.FC = () => {
-  const messages = {
-    'pt-br': ptBrMessages
-  }
-
-  const i18nProvider = polyglotI18nProvider(locale => messages[locale], 'pt-br')
-
   return (
     <Admin
-      dataProvider={customDataProvider('http://localhost:3333/api')}
+      dataProvider={customDataProvider(
+        process.env.REACT_APP_API || 'http://localhost:3333/api'
+      )}
       authProvider={authProvider}
       loginPage={LoginPage}
-      i18nProvider={i18nProvider}
       theme={dashBoardTheme}
       title="Merkur Admin"
     >

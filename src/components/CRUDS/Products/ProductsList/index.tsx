@@ -32,8 +32,8 @@ const ProductsList: React.FC<ListProps> = props => {
     >
       {isSmall ? (
         <SimpleList
-          primaryText={record => record.name}
-          tertiaryText={record => record.category}
+          primaryText={(record: any) => record.name}
+          tertiaryText={(record: any) => record.category}
         />
       ) : (
         <Datagrid rowClick="edit" optimized>
@@ -67,13 +67,13 @@ const ProductsList: React.FC<ListProps> = props => {
           <FunctionField
             source="cost_price"
             label="Preço de compra"
-            render={record => `R$${record.cost_price.toFixed(2)}`}
+            render={(record: any) => `R$${record.cost_price.toFixed(2)}`}
             sortable={false}
           />
           <FunctionField
             source="sale_price"
             label="Preço de venda"
-            render={record => `R$${record.sale_price.toFixed(2)}`}
+            render={(record: any) => `R$${record.sale_price.toFixed(2)}`}
             sortable={false}
           />
           <BooleanField source="organic" label="Orgânico" sortable={false} />

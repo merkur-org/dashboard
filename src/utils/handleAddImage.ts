@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie'
 import api from '../services/api'
 
-const handleAddImage = async data => {
+const handleAddImage = async (data: any) => {
   const token = Cookies.get('token')
   const formData = new FormData()
   const image = data.image.rawFile

@@ -47,7 +47,7 @@ const ProductCreate: React.FC<CreateProps> = props => {
         }}
       >
         <Form
-          validate={values => {
+          validate={(values: any) => {
             const errors = {} as any
             ;[
               'name',
