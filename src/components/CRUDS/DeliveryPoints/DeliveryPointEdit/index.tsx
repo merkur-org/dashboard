@@ -20,21 +20,10 @@ import axios from 'axios'
 import { MapContainer, TileLayer, useMap } from 'react-leaflet'
 import { LatLngTuple } from 'leaflet'
 import AddMarker from '../../../UI/AddMarker'
-import PositionInputField from '../../../UI/PositionInputField'
+import PositionInputField from '../../../Dashboard/PositionInputField'
 import api from '../../../../services/api'
-
-const DeliveryPointEditActions = (props: EditActionsProps) => {
-  return (
-    <Toolbar>
-      <ListButton label="voltar" icon={<MdArrowBack />} />
-      <CloneButton record={props.data} basePath={props.basePath} />
-    </Toolbar>
-  )
-}
-
-const DeliveryPointEditTitle = ({ record }: TitleProps) => {
-  return <span> Editar produto {record.name}</span>
-}
+import ActionToolbar from '../../../Dashboard/ActionToolBar'
+import CrudTitle from '../../../Dashboard/CrudTitlte'
 
 interface UFProps {
   id: string
@@ -84,8 +73,12 @@ const DeliveryPointEdit: React.FC<EditProps> = props => {
   return (
     <Edit
       {...props}
-      title={<DeliveryPointEditTitle />}
-      actions={<DeliveryPointEditActions />}
+      title={<CrudTitle content="Editar ponto de entrega" />}
+      actions={
+        <ActionToolbar>
+          <ListButton label="voltar" icon={<MdArrowBack />} />
+        </ActionToolbar>
+      }
       mutationMode="pessimistic"
     >
       <Form>

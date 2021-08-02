@@ -1,61 +1,24 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   Create,
   TextInput,
   SelectInput,
   ListButton,
   CreateProps,
-  Toolbar,
   DateInput,
   ArrayInput,
   SimpleFormIterator,
   ReferenceInput,
   NumberInput,
-  required,
-  ButtonProps,
-  Button
+  required
 } from 'react-admin'
 import { MdArrowBack } from 'react-icons/md'
 
+import ActionToolbar from '../../../Dashboard/ActionToolBar'
+import ClearProducts from '../ClearProducts'
+
 import { Form } from './styles'
-import { useForm } from 'react-final-form'
 import { listTypes } from '../listTypes'
-
-const ListCreateActions: React.FC = props => {
-  return (
-    <Toolbar>
-      <ListButton label="voltar" icon={<MdArrowBack />} />
-    </Toolbar>
-  )
-}
-
-interface ClearProductsProps extends ButtonProps {
-  state: string
-}
-
-export const ClearProducts: React.FC<ClearProductsProps> = ({
-  state,
-  ...props
-}) => {
-  const form = useForm()
-
-  const handleClick = useCallback(() => {
-    form.change('details', undefined)
-  }, [form])
-
-  useEffect(() => {
-    handleClick()
-  }, [state])
-
-  return (
-    <Button
-      onClick={handleClick}
-      variant="contained"
-      label="Limpar itens"
-      {...props}
-    />
-  )
-}
 
 const ListCreate: React.FC<CreateProps> = props => {
   const [listType, setListType] = useState<string>()
@@ -69,7 +32,11 @@ const ListCreate: React.FC<CreateProps> = props => {
       <Create
         {...props}
         title="Adicionar nova oferta"
-        actions={<ListCreateActions />}
+        actions={
+          <ActionToolbar>
+            <ListButton label="voltar" icon={<MdArrowBack />} />
+          </ActionToolbar>
+        }
       >
         <Form
           validate={values => {
@@ -153,6 +120,16 @@ const ListCreate: React.FC<CreateProps> = props => {
                       min={0}
                       validate={[required()]}
                     />
+                  )}
+                  {listType === 'producer' && (
+                    <ReferenceInput
+                      source="name"
+                      reference="users"
+                      filter={{ role: 'p' }}
+                      label="Fornecedor"
+                    >
+                      <SelectInput optionText="name" validate={[required()]} />
+                    </ReferenceInput>
                   )}
                   {listType === 'producer' && (
                     <DateInput

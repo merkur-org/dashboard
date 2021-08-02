@@ -9,6 +9,8 @@ import {
   NumberInput
 } from 'react-admin'
 
+import ActionToolbar from '../../../Dashboard/ActionToolBar'
+
 import { MdArrowBack } from 'react-icons/md'
 import axios from 'axios'
 import { LatLngTuple } from 'leaflet'
@@ -17,15 +19,7 @@ import { MapContainer, TileLayer } from 'react-leaflet'
 import AddMarker from '../../../UI/AddMarker'
 
 import { Form } from './styles'
-import PositionInputField from '../../../UI/PositionInputField'
-
-const DeliveryPointCreateActions: React.FC = () => {
-  return (
-    <Toolbar>
-      <ListButton label="voltar" icon={<MdArrowBack />} />
-    </Toolbar>
-  )
-}
+import PositionInputField from '../../../Dashboard/PositionInputField'
 
 interface UFProps {
   id: string
@@ -62,7 +56,11 @@ const DeliveryPointCreate: React.FC<CreateProps> = props => {
       <Create
         {...props}
         title="Adicionar novo ponto de entrega"
-        actions={<DeliveryPointCreateActions />}
+        actions={
+          <ActionToolbar>
+            <ListButton label="voltar" icon={<MdArrowBack />} />
+          </ActionToolbar>
+        }
         options={{ position: selectedPosition }}
       >
         <Form

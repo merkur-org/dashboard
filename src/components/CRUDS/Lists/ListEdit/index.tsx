@@ -16,31 +16,15 @@ import {
 } from 'react-admin'
 import React, { useState } from 'react'
 
+import ActionToolbar from '../../../Dashboard/ActionToolBar'
+
 import { Form } from './styles'
 import { MdArrowBack } from 'react-icons/md'
 
-import { ClearProducts } from '../ListCreate'
+import ClearProducts from '../ClearProducts'
 import { listTypes } from '../listTypes'
 import formatDate from '../../../../utils/formatDate'
-
-const ListEditActions = (props: EditActionsProps) => {
-  return (
-    <Toolbar>
-      <ListButton label="voltar" icon={<MdArrowBack />} />
-      <CloneButton record={props.data} basePath={props.basePath} />
-    </Toolbar>
-  )
-}
-
-const ListEditTitle = props => {
-  return (
-    <span>
-      {' '}
-      Editar lista de {formatDate(props.record.start_date)} à
-      {formatDate(props.record.end_date)}
-    </span>
-  )
-}
+import CrudTitle from '../../../Dashboard/CrudTitlte'
 
 const ListEdit: React.FC<EditProps> = props => {
   const [listType, setListType] = useState<string>()
@@ -52,8 +36,19 @@ const ListEdit: React.FC<EditProps> = props => {
   return (
     <Edit
       {...props}
-      title={<ListEditTitle />}
-      actions={<ListEditActions />}
+      title={
+        <CrudTitle
+          contentWithRecord={record => `Editar lista de ${formatDate(
+            record.start_date
+          )} à
+            ${formatDate(record.end_date)}`}
+        />
+      }
+      actions={
+        <ActionToolbar>
+          <ListButton label="voltar" icon={<MdArrowBack />} />
+        </ActionToolbar>
+      }
       mutationMode="pessimistic"
     >
       <Form

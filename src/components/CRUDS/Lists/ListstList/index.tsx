@@ -22,32 +22,19 @@ import {
   BooleanInput,
   SimpleForm,
   SelectInput,
-  RadioButtonGroupInput
+  RadioButtonGroupInput,
+  ListProps
 } from 'react-admin'
 
-import { ListsListActions, Card } from './styles'
-import UserField from '../../../UI/UserField'
+import UserField from '../../../Dashboard/UserField'
+import ActionToolBar from '../../../Dashboard/ActionToolBar'
+import BulkActionButtons from '../../../Dashboard/BulkActionButtons'
 
 import formatDate from '../../../../utils/formatDate'
 import { translateListStatus } from '../../../../utils/translate/translateListStatus'
 import { translateListType } from '../../../../utils/translate/translateListType'
 import { useState } from 'react'
 import { listTypes } from '../listTypes'
-
-const ListsListActionToolbar = ({ children, ...props }) => {
-  return (
-    <ListsListActions>
-      {Children.map(children, button => cloneElement(button, props))}
-    </ListsListActions>
-  )
-}
-
-const ListsListBulkActions = memo(({ children, ...props }) => (
-  <div>
-    <BulkDeleteButton {...props} />
-    <BulkExportButton {...props} />
-  </div>
-))
 
 const ListsFilter = props => {
   return (
@@ -65,13 +52,18 @@ const ListsFilter = props => {
   )
 }
 
-const ListsList: React.FC = props => {
+const ListsList: React.FC<ListProps> = props => {
   const [listType, setListType] = useState({ type: 'offer' })
   const isSmall = useMediaQuery<Theme>(theme => theme.breakpoints.down('sm'))
 
   return (
     <List
-      bulkActionButtons={<ListsListBulkActions />}
+      bulkActionButtons={
+        <BulkActionButtons>
+          <BulkDeleteButton />
+          <BulkExportButton />
+        </BulkActionButtons>
+      }
       filter={listType}
       filters={<ListsFilter setListType={setListType} />}
       {...props}
@@ -107,10 +99,10 @@ const ListsList: React.FC = props => {
             render={record => translateListStatus(record.status)}
             sortable={false}
           />
-          <ListsListActionToolbar>
+          <ActionToolBar>
             <EditButton label="Editar Lista" />
             <ShowButton label="Ver detalhes" />
-          </ListsListActionToolbar>
+          </ActionToolBar>
         </Datagrid>
       )}
     </List>

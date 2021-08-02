@@ -7,7 +7,8 @@ import {
   FaShoppingBag,
   FaClipboardList,
   FaMapMarkerAlt,
-  FaCalendarAlt
+  FaCalendarAlt,
+  FaUserAlt
 } from 'react-icons/fa'
 
 import dashBoardTheme from '../../styles/dashBoardTheme'
@@ -30,6 +31,11 @@ import ListsList from '../../components/CRUDS/Lists/ListstList'
 import ListCreate from '../../components/CRUDS/Lists/ListCreate'
 import ListEdit from '../../components/CRUDS/Lists/ListEdit'
 import ListShow from '../../components/CRUDS/Lists/ListShow'
+
+import ProvidersList from '../../components/CRUDS/Providers/ProvidersList'
+import ProvidersCreate from '../../components/CRUDS/Providers/ProvidersCreate'
+import ProvidersEdit from '../../components/CRUDS/Providers/ProvidersEdit'
+import ProvidersShow from '../../components/CRUDS/Providers/ProvidersShow'
 
 import authProvider from '../../providers/authProvider'
 import LoginPage from '../../pages/Login'
@@ -82,6 +88,15 @@ const Dashboard: React.FC = () => {
         show={ListShow}
         icon={FaCalendarAlt}
         options={{ label: 'Ofertas semanais' }}
+      />
+      <Resource
+        name="users"
+        list={ProvidersList}
+        create={ProvidersCreate}
+        edit={ProvidersEdit}
+        show={ProvidersShow}
+        icon={FaUserAlt}
+        options={{ label: 'Fornecedores' }}
       />
     </Admin>
   )

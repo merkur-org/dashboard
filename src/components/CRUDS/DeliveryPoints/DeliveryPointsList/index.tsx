@@ -1,4 +1,5 @@
 import React, { cloneElement, memo, Children } from 'react'
+import { ListProps } from 'react-admin'
 import { Theme, useMediaQuery } from '@material-ui/core'
 import {
   Datagrid,
@@ -12,28 +13,22 @@ import {
   SimpleList
 } from 'ra-ui-materialui'
 
-import { DeliveryPointsListActions } from './styles'
+import ActionToolBar from '../../../Dashboard/ActionToolBar'
+import BulkActionButtons from '../../../Dashboard/BulkActionButtons'
 
-const DeliveryPointsActionToolbar = ({ children, ...props }) => {
-  return (
-    <DeliveryPointsListActions>
-      {Children.map(children, button => cloneElement(button, props))}
-    </DeliveryPointsListActions>
-  )
-}
-
-const DeliveryPointsListBulkActions = memo(({ children, ...props }) => (
-  <div>
-    <BulkDeleteButton {...props} />
-    <BulkExportButton {...props} />
-  </div>
-))
-
-const DeliveryPointsList: React.FC = props => {
+const DeliveryPointsList: React.FC<ListProps> = props => {
   const isSmall = useMediaQuery<Theme>(theme => theme.breakpoints.down('sm'))
 
   return (
-    <List {...props} bulkActionButtons={<DeliveryPointsListBulkActions />}>
+    <List
+      {...props}
+      bulkActionButtons={
+        <BulkActionButtons>
+          <BulkDeleteButton />
+          <BulkExportButton />
+        </BulkActionButtons>
+      }
+    >
       {isSmall ? (
         <SimpleList
           primaryText={record => record.city}
@@ -53,10 +48,10 @@ const DeliveryPointsList: React.FC = props => {
           <TextField source="street" label="Rua" sortable={false} />
           <NumberField source="number" label="Número" sortable={false} />
           <TextField source="cep" label="CEP" sortable={false} />
-          <DeliveryPointsActionToolbar>
+          <ActionToolBar>
             <EditButton />
             <ShowButton />
-          </DeliveryPointsActionToolbar>
+          </ActionToolBar>
         </Datagrid>
       )}
     </List>

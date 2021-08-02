@@ -11,23 +11,18 @@ import {
 } from 'ra-ui-materialui'
 import { useMediaQuery } from '@material-ui/core'
 import { Theme } from '@material-ui/core/styles'
-import { ArrayField, BulkExportButton, Filter } from 'react-admin'
+import { ArrayField, BulkExportButton, Filter, ListProps } from 'react-admin'
 
-import UserField from '../../../UI/UserField'
-import DeliveryPointField from '../../../UI/DeliveryPointField'
-import ProductsField from '../../../UI/ProductsField'
+import UserField from '../../../Dashboard/UserField'
+import DeliveryPointField from '../../../Dashboard/DeliveryPointField'
+import ProductsField from '../../../Dashboard/ProductsField'
+import BulkActionButtons from '../../../Dashboard/BulkActionButtons'
 
 import { translatePaymentType } from '../../../../utils/translate/translatePaymentType'
 import { translatePaymentStatus } from '../../../../utils/translate/translatePaymentStatus'
 import { translateSalesType } from '../../../../utils/translate/translateSalesType'
 
 import { DetailsContainer, Detail } from './styles'
-
-const OrdersListBulkActions = memo(({ children, ...props }) => (
-  <div>
-    <BulkExportButton {...props} />
-  </div>
-))
 
 const OrderExpandPanel = ({ isSmall, ...props }) => {
   const { record } = props
@@ -89,13 +84,17 @@ const OrdersFilter = props => {
   )
 }
 
-const OrdersList: React.FC = props => {
+const OrdersList: React.FC<ListProps> = props => {
   const isSmall = useMediaQuery<Theme>(theme => theme.breakpoints.down('sm'))
 
   return (
     <List
       filters={<OrdersFilter />}
-      bulkActionButtons={<OrdersListBulkActions />}
+      bulkActionButtons={
+        <BulkActionButtons>
+          <BulkExportButton />
+        </BulkActionButtons>
+      }
       {...props}
     >
       <Datagrid expand={<OrderExpandPanel isSmall={isSmall} />}>

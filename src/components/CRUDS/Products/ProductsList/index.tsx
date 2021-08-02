@@ -12,30 +12,24 @@ import {
   FunctionField,
   BooleanField
 } from 'ra-ui-materialui'
-import { BulkExportButton, BulkDeleteButton } from 'react-admin'
+import { BulkExportButton, BulkDeleteButton, ListProps } from 'react-admin'
 
-import { ProductListActions } from './styles'
+import ActionToolBar from '../../../Dashboard/ActionToolBar'
+import BulkActionButtons from '../../../Dashboard/BulkActionButtons'
 
-const ProductsListActionToolbar = ({ children, ...props }) => {
-  return (
-    <ProductListActions>
-      {Children.map(children, button => cloneElement(button, props))}
-    </ProductListActions>
-  )
-}
-
-const ProductsListBulkActions = memo(({ children, ...props }) => (
-  <div>
-    <BulkDeleteButton {...props} />
-    <BulkExportButton {...props} />
-  </div>
-))
-
-const ProductsList: React.FC = props => {
+const ProductsList: React.FC<ListProps> = props => {
   const isSmall = useMediaQuery<Theme>(theme => theme.breakpoints.down('sm'))
 
   return (
-    <List {...props} bulkActionButtons={<ProductsListBulkActions />}>
+    <List
+      {...props}
+      bulkActionButtons={
+        <BulkActionButtons>
+          <BulkDeleteButton />
+          <BulkExportButton />
+        </BulkActionButtons>
+      }
+    >
       {isSmall ? (
         <SimpleList
           primaryText={record => record.name}
@@ -83,10 +77,10 @@ const ProductsList: React.FC = props => {
             sortable={false}
           />
           <BooleanField source="organic" label="Orgânico" sortable={false} />
-          <ProductsListActionToolbar>
+          <ActionToolBar>
             <EditButton />
             <ShowButton />
-          </ProductsListActionToolbar>
+          </ActionToolBar>
         </Datagrid>
       )}
     </List>

@@ -1,7 +1,8 @@
 import { ListButton, Show, TextField } from 'ra-ui-materialui'
 import React from 'react'
-import { NumberField, Toolbar } from 'react-admin'
+import { NumberField, ShowProps, Toolbar } from 'react-admin'
 import { MdArrowBack } from 'react-icons/md'
+import CrudTitle from '../../../Dashboard/CrudTitlte'
 
 import { ShowData } from './styles'
 
@@ -13,16 +14,12 @@ const DeliveryPointShowActions = () => {
   )
 }
 
-const DeliveryPointShowTitle = () => {
-  return <span>Ponto de entrega</span>
-}
-
-const DeliveryPointShow: React.FC = props => {
+const DeliveryPointShow: React.FC<ShowProps> = props => {
   return (
     <Show
       {...props}
       actions={<DeliveryPointShowActions />}
-      title={<DeliveryPointShowTitle />}
+      title={<CrudTitle content="Ponto de entrega" />}
     >
       <ShowData>
         <TextField source="city" label="Cidade" />

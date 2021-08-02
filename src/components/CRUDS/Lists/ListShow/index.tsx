@@ -13,6 +13,7 @@ import {
   Datagrid,
   DateField,
   ShowActionsProps,
+  ShowProps,
   TitleProps,
   Toolbar
 } from 'react-admin'
@@ -20,8 +21,9 @@ import { MdArrowBack } from 'react-icons/md'
 import formatDate from '../../../../utils/formatDate'
 import { translateListStatus } from '../../../../utils/translate/translateListStatus'
 import { translateListType } from '../../../../utils/translate/translateListType'
-import ProductsField from '../../../UI/ProductsField'
-import UserField from '../../../UI/UserField'
+import CrudTitle from '../../../Dashboard/CrudTitlte'
+import ProductsField from '../../../Dashboard/ProductsField'
+import UserField from '../../../Dashboard/UserField'
 
 import { ShowData } from './styles'
 
@@ -33,22 +35,22 @@ const ProductShowActions = (props: ShowActionsProps) => {
   )
 }
 
-const ProductShowTitle = ({ record }: TitleProps) => {
-  return (
-    <span>
-      Lista de {formatDate(record.start_date)} à {formatDate(record.end_date)}
-    </span>
-  )
-}
-
-const ListShow: React.FC = props => {
+const ListShow: React.FC<ShowProps> = props => {
   const [listType, setListType] = useState<string>()
 
   return (
     <Show
       {...props}
       actions={<ProductShowActions />}
-      title={<ProductShowTitle />}
+      title={
+        <CrudTitle
+          contentWithRecord={record =>
+            `Lista de ${formatDate(record.start_date)} à ${formatDate(
+              record.end_date
+            )}`
+          }
+        />
+      }
     >
       <>
         <ShowData>
