@@ -1,9 +1,17 @@
 import { Admin, Resource } from 'react-admin'
 
-import { FaShoppingBag, FaClipboardList, FaMapMarkerAlt } from 'react-icons/fa'
-import { createMuiTheme } from '@material-ui/core'
+import ptBrMessages from 'ra-language-pt-br'
+import polyglotI18nProvider from 'ra-i18n-polyglot'
 
-import Theme from '../../styles/theme'
+import {
+  FaShoppingBag,
+  FaClipboardList,
+  FaMapMarkerAlt,
+  FaCalendarAlt,
+  FaUserAlt
+} from 'react-icons/fa'
+
+import dashBoardTheme from '../../styles/dashBoardTheme'
 
 import customDataProvider from '../../providers/customDataProvider'
 
@@ -13,30 +21,24 @@ import ProductCreate from '../../components/CRUDS/Products/ProductCreate'
 import ProductEdit from '../../components/CRUDS/Products/ProductEdit'
 
 import OrdersList from '../../components/CRUDS/Orders/OrdersList'
-import OrdersShow from '../../components/CRUDS/Orders/OrdersShow'
 
 import DeliveryPointsList from '../../components/CRUDS/DeliveryPoints/DeliveryPointsList'
+import DeliveryPointCreate from '../../components/CRUDS/DeliveryPoints/DeliveryPointCreate'
+import DeliveryPointEdit from '../../components/CRUDS/DeliveryPoints/DeliveryPointEdit'
+import DeliveryPointShow from '../../components/CRUDS/DeliveryPoints/DeliveryPointShow'
+
+import ListsList from '../../components/CRUDS/Lists/ListstList'
+import ListCreate from '../../components/CRUDS/Lists/ListCreate'
+import ListEdit from '../../components/CRUDS/Lists/ListEdit'
+import ListShow from '../../components/CRUDS/Lists/ListShow'
+
+import ProvidersList from '../../components/CRUDS/Providers/ProvidersList'
+import ProvidersCreate from '../../components/CRUDS/Providers/ProvidersCreate'
+import ProvidersEdit from '../../components/CRUDS/Providers/ProvidersEdit'
+import ProvidersShow from '../../components/CRUDS/Providers/ProvidersShow'
 
 import authProvider from '../../providers/authProvider'
 import LoginPage from '../../pages/Login'
-
-const dashBoardTheme = createMuiTheme({
-  palette: {
-    primary: {
-      main: Theme.colors.darkOrange
-    },
-    secondary: {
-      main: Theme.colors.orangePrimary
-    },
-    text: {
-      primary: Theme.colors.black,
-      disabled: Theme.colors.lightGray
-    },
-    background: {
-      default: '#f7f7f7'
-    }
-  }
-})
 
 const Dashboard: React.FC = () => {
   return (
@@ -61,15 +63,35 @@ const Dashboard: React.FC = () => {
       <Resource
         name="orders"
         list={OrdersList}
-        show={OrdersShow}
         icon={FaClipboardList}
         options={{ label: 'Pedidos' }}
       />
       <Resource
         name="delivery-points"
         list={DeliveryPointsList}
+        create={DeliveryPointCreate}
+        edit={DeliveryPointEdit}
+        show={DeliveryPointShow}
         icon={FaMapMarkerAlt}
         options={{ label: 'Pontos de entrega' }}
+      />
+      <Resource
+        name="lists"
+        list={ListsList}
+        create={ListCreate}
+        edit={ListEdit}
+        show={ListShow}
+        icon={FaCalendarAlt}
+        options={{ label: 'Ofertas semanais' }}
+      />
+      <Resource
+        name="users"
+        list={ProvidersList}
+        create={ProvidersCreate}
+        edit={ProvidersEdit}
+        show={ProvidersShow}
+        icon={FaUserAlt}
+        options={{ label: 'Fornecedores' }}
       />
     </Admin>
   )

@@ -19,17 +19,12 @@ import {
 } from 'react-admin'
 import { MdArrowBack } from 'react-icons/md'
 
+import ActionToolbar from '../../../Dashboard/ActionToolBar'
+
 import { categories, units } from '../ProductsSelect'
 import { Form, BololeanInputsContainer } from './styles'
 import handleAddImage from '../../../../utils/handleAddImage'
-
-const ProductCreateActions: React.FC = props => {
-  return (
-    <Toolbar>
-      <ListButton label="voltar" icon={<MdArrowBack />} />
-    </Toolbar>
-  )
-}
+import BulkActionButtons from '../../../Dashboard/BulkActionButtons'
 
 const ProductCreate: React.FC<CreateProps> = props => {
   const refresh = useRefresh()
@@ -40,10 +35,12 @@ const ProductCreate: React.FC<CreateProps> = props => {
       <Create
         {...props}
         title="Adicionar novo produto"
-        actions={<ProductCreateActions />}
+        actions={
+          <ActionToolbar>
+            <ListButton label="voltar" icon={<MdArrowBack />} />
+          </ActionToolbar>
+        }
         onSuccess={formData => {
-          console.log(formData)
-
           handleAddImage(formData)
           redirect('/products')
           refresh()

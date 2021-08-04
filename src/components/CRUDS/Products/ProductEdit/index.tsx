@@ -5,8 +5,6 @@ import {
   ListButton,
   Toolbar,
   TitleProps,
-  useTranslate,
-  TabbedForm,
   FormTab,
   ImageInput,
   ImageField,
@@ -14,42 +12,38 @@ import {
   CloneButton,
   EditActionsProps,
   useRefresh,
-  useRedirect
+  useRedirect,
+  EditProps
 } from 'react-admin'
 import React from 'react'
+
+import ActionToolbar from '../../../Dashboard/ActionToolBar'
+import CrudTitle from '../../../Dashboard/CrudTitlte'
 
 import { Form, BololeanInputsContainer } from './styles'
 
 import { categories, units } from '../ProductsSelect'
-import BackButton from '../../../UI/BackButton'
 import { MdArrowBack } from 'react-icons/md'
 import handleAddImage from '../../../../utils/handleAddImage'
 
-const ProductEditActions = (props: EditActionsProps) => {
-  return (
-    <Toolbar>
-      <ListButton label="voltar" icon={<MdArrowBack />} />
-      <CloneButton record={props.data} basePath={props.basePath} />
-    </Toolbar>
-  )
-}
-
-const ProductEditTitle = ({ record }: TitleProps) => {
-  return <span> Editar produto {record ? record.name : ''}</span>
-}
-
-const ProductEdit: React.FC = props => {
+const ProductEdit: React.FC<EditProps> = props => {
   const refresh = useRefresh()
   const redirect = useRedirect()
 
   return (
     <Edit
       {...props}
-      title={<ProductEditTitle />}
-      actions={<ProductEditActions />}
+      title={
+        <CrudTitle
+          contentWithRecord={record => `Editar produto ${record.name}`}
+        />
+      }
+      actions={
+        <ActionToolbar>
+          <ListButton label="voltar" icon={<MdArrowBack />} />
+        </ActionToolbar>
+      }
       onSuccess={formData => {
-        console.log(formData)
-
         handleAddImage(formData)
         redirect('/products')
         refresh()

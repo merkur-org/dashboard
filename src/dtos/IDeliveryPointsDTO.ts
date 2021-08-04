@@ -1,4 +1,4 @@
-export default interface IDeliveryPointsDTO {
+export interface IDeliveryPointsDTO {
   id: string
   city: string
   state: string

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Children, cloneElement, memo } from 'react'
+import React, { memo } from 'react'
 import {
   Datagrid,
   DateField,
@@ -6,133 +6,109 @@ import {
   NumberField,
   FunctionField,
   TextField,
-  TextFieldProps,
-  SimpleList
+  TextInput,
+  DateInput
 } from 'ra-ui-materialui'
 import { useMediaQuery } from '@material-ui/core'
 import { Theme } from '@material-ui/core/styles'
-import {
-  ArrayField,
-  BulkExportButton,
-  EditButton,
-  ShowButton
-} from 'react-admin'
-import { useRecordContext } from 'ra-core'
-import Cookie from 'js-cookie'
+import { ArrayField, BulkExportButton, Filter, ListProps } from 'react-admin'
 
-import api from '../../../../services/api'
-import { IUserDTO } from '../../../../dtos/IUserDTO'
+import UserField from '../../../Dashboard/UserField'
+import DeliveryPointField from '../../../Dashboard/DeliveryPointField'
+import ProductsField from '../../../Dashboard/ProductsField'
+import BulkActionButtons from '../../../Dashboard/BulkActionButtons'
 
-import serializeDeliveryPoint from '../../../../utils/serializeDeliveryPoint'
-import {
-  translatePaymentStatus,
-  translatePaymentType,
-  translateSalesType
-} from '../../../../utils/translate'
+import { translatePaymentType } from '../../../../utils/translate/translatePaymentType'
+import { translatePaymentStatus } from '../../../../utils/translate/translatePaymentStatus'
+import { translateSalesType } from '../../../../utils/translate/translateSalesType'
 
-import { OrdersListActions } from './styles'
-import { FC } from 'react'
+import { DetailsContainer, Detail } from './styles'
 
-export const UserField: React.FC<TextFieldProps> = props => {
-  const record = useRecordContext(props)
-  const [user, setUser] = useState('')
-
-  useEffect(() => {
-    async function getUser() {
-      const token = Cookie.get('token')
-
-      const { data } = await api.get<IUserDTO>(`/users/${record.user_id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-
-      setUser(data.name)
-    }
-
-    getUser()
-  }, [record])
-
-  return <p>{user}</p>
-}
-
-const DeliveryPointField: React.FC<TextFieldProps> = props => {
-  const record = useRecordContext(props)
-  const [deliveryPoint, setDeliveryPoint] = useState('')
-
-  useEffect(() => {
-    async function setSerializedDeliveryPoint() {
-      const point = await serializeDeliveryPoint(record.delivery_point_id)
-      setDeliveryPoint(point)
-    }
-
-    setSerializedDeliveryPoint()
-  }, [record])
-
-  return <p>{deliveryPoint}</p>
-}
-
-const OrdersListActionToolbar = memo(({ children }) => (
-  <OrdersListActions>
-    {children}
-    {/* {Children.map(children, button => cloneElement(button, props))} */}
-  </OrdersListActions>
-))
-
-const OrdersListBulkActions = memo(({ children, ...props }) => (
-  <div>
-    <BulkExportButton {...props} />
-  </div>
-))
-
-interface IOrderExpandPanel {
-  record: any
-}
-
-const OrderExpandPanel: FC<IOrderExpandPanel> = ({ record }) => {
-  console.log(record.record.details)
+const OrderExpandPanel = ({ isSmall, ...props }) => {
+  const { record } = props
 
   return (
-    <div>
+    <>
       <DeliveryPointField label="Ponto de entrega" />
-      <ArrayField source={record.record.details}>
+      {isSmall && (
+        <DetailsContainer>
+          <Detail>
+            <h3>Tipo de pagamento</h3>
+            <p>{translatePaymentType(record.payment_type)}</p>
+          </Detail>
+          <Detail>
+            <h3>Status do pagamento</h3>
+            <p>{translatePaymentStatus(record.payment_status)}</p>
+          </Detail>
+          <Detail>
+            <h3>Tipo de venda</h3>
+            <p>{translateSalesType(record.sales_type)}</p>
+          </Detail>
+          <Detail>
+            <h3>Valor</h3>
+            <p>{record.value.toFixed(2)}</p>
+          </Detail>
+          <Detail>
+            <h3>Valor Final</h3>
+            <p>{record.final_value.toFixed(2)}</p>
+          </Detail>
+        </DetailsContainer>
+      )}
+      <ArrayField source="details">
         <Datagrid>
-          <TextField label="Id" source="discount" />
+          <FunctionField
+            label="Produtos"
+            source="product_id"
+            render={() => <ProductsField />}
+          />
+          <NumberField label="Quantidade" source="quantity" />
+          <NumberField label="Preço unitário" source="unit_price" />
+          <TextField label="Desconto" source="discount" />
+          <FunctionField
+            label="Total"
+            render={record =>
+              `${record.quantity * record.unit_price * (1 - record.discount)}`
+            }
+          />
         </Datagrid>
       </ArrayField>
-    </div>
+    </>
   )
 }
 
-const OrdersList: React.FC = props => {
+const OrdersFilter = props => {
+  return (
+    <Filter {...props}>
+      <DateInput label="Procurar" source="date" alwaysOn placeholder="" />
+    </Filter>
+  )
+}
+
+const OrdersList: React.FC<ListProps> = props => {
   const isSmall = useMediaQuery<Theme>(theme => theme.breakpoints.down('sm'))
 
   return (
-    <List {...props} bulkActionButtons={<OrdersListBulkActions />}>
-      {isSmall ? (
-        <SimpleList
-          primaryText={record => <DateField source="date" record={record} />}
-          secondaryText={record => (
-            <UserField source="user_id" record={record} />
-          )}
-          tertiaryText={record => (
-            <FunctionField
-              source="final_value"
-              record={record}
-              render={(record: any) => (
-                <strong>R$ {record.final_value.toFixed(2)} </strong>
-              )}
-            />
-          )}
-        />
-      ) : (
-        <Datagrid expand={record => <OrderExpandPanel record={record} />}>
-          <DateField source="date" label="Data do pedido" sortable={false} />
-          <UserField source="user_id" label="Usuário" sortable={false} />
+    <List
+      filters={<OrdersFilter />}
+      bulkActionButtons={
+        <BulkActionButtons>
+          <BulkExportButton />
+        </BulkActionButtons>
+      }
+      {...props}
+    >
+      <Datagrid expand={<OrderExpandPanel isSmall={isSmall} />}>
+        <DateField source="date" label="Data do pedido" sortable={false} />
+        <UserField source="user_id" label="Usuário" sortable={false} />
+        {!isSmall && (
           <FunctionField
             source="payment_type"
             label="Tipo de pagamento"
             render={(record: any) => translatePaymentType(record.payment_type)}
             sortable={false}
           />
+        )}
+        {!isSmall && (
           <FunctionField
             source="payment_status"
             label="Status do pagamento"
@@ -141,12 +117,16 @@ const OrdersList: React.FC = props => {
             }
             sortable={false}
           />
+        )}
+        {!isSmall && (
           <FunctionField
             source="sales_type"
             label="Tipo de compra"
             render={(record: any) => translateSalesType(record.sales_type)}
             sortable={false}
           />
+        )}
+        {!isSmall && (
           <FunctionField
             source="value"
             label="Valor"
@@ -155,19 +135,16 @@ const OrdersList: React.FC = props => {
             )}
             sortable={false}
           />
-          <FunctionField
-            source="final_value"
-            label="Valor final"
-            render={(record: any) => (
-              <strong>R$ {record.final_value.toFixed(2)} </strong>
-            )}
-            sortable={false}
-          />
-          <OrdersListActionToolbar>
-            <ShowButton />
-          </OrdersListActionToolbar>
-        </Datagrid>
-      )}
+        )}
+        <FunctionField
+          source="final_value"
+          label="Valor final"
+          render={record => (
+            <strong>R$ {record.final_value.toFixed(2)} </strong>
+          )}
+          sortable={false}
+        />
+      </Datagrid>
     </List>
   )
 }

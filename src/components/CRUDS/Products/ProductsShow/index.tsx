@@ -1,19 +1,23 @@
 import {
-  DeleteButton,
   ListButton,
   RichTextField,
-  SelectField,
   ImageField,
   Show,
-  ShowProps,
-  SimpleShowLayout,
   TextField,
   FunctionField
 } from 'ra-ui-materialui'
 import React from 'react'
-import { ShowActionsProps, TitleProps, Toolbar } from 'react-admin'
+import {
+  ShowActionsProps,
+  ShowProps,
+  TitleProps,
+  Toolbar,
+  useRecordContext
+} from 'react-admin'
 import { MdArrowBack } from 'react-icons/md'
 import { categories, units } from '../ProductsSelect'
+
+import CrudTitle from '../../../Dashboard/CrudTitlte'
 
 import { ShowData } from './styles'
 
@@ -25,16 +29,18 @@ const ProductShowActions = (props: ShowActionsProps) => {
   )
 }
 
-const ProductShowTitle = ({ record }: TitleProps) => {
-  return <span>{record ? record.name : ''}</span>
-}
-
-const ProductsShow: React.FC = props => {
+const ProductsShow: React.FC<ShowProps> = props => {
   return (
     <Show
-      {...props}
       actions={<ProductShowActions />}
-      title={<ProductShowTitle />}
+      title={
+        <CrudTitle
+          contentWithRecord={record => {
+            return record.name
+          }}
+        />
+      }
+      {...props}
     >
       <ShowData>
         <ImageField source="image_url" label="" />

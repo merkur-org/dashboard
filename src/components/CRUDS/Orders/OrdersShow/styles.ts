@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { SimpleShowLayout } from 'ra-ui-materialui'
+import { SimpleShowLayout } from 'react-admin'
 import { breakPoints } from '../../../../styles/constants'
 
 export const ShowData = styled(SimpleShowLayout)`
