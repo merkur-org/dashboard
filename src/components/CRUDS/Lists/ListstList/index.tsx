@@ -36,7 +36,7 @@ import { translateListType } from '../../../../utils/translate/translateListType
 import { useState } from 'react'
 import { listTypes } from '../listTypes'
 
-const ListsFilter = props => {
+const ListsFilter = (props: any) => {
   return (
     <Filter {...props}>
       <RadioButtonGroupInput
@@ -45,7 +45,7 @@ const ListsFilter = props => {
         label=""
         choices={listTypes}
         onChange={e => {
-          props.setListType({ type: e })
+          props?.setListType({ type: e })
         }}
       />
     </Filter>
@@ -70,9 +70,9 @@ const ListsList: React.FC<ListProps> = props => {
     >
       {isSmall ? (
         <SimpleList
-          primaryText={record => formatDate(record.start_date)}
-          secondaryText={record => formatDate(record.end_date)}
-          tertiaryText={record => translateListStatus(record.status)}
+          primaryText={(record: any) => formatDate(record.start_date)}
+          secondaryText={(record: any) => formatDate(record.end_date)}
+          tertiaryText={(record: any) => translateListStatus(record.status)}
         />
       ) : (
         <Datagrid rowClick="edit" optimized>
@@ -90,13 +90,13 @@ const ListsList: React.FC<ListProps> = props => {
           <FunctionField
             source="type"
             label="Tipo"
-            render={record => translateListType(record.type)}
+            render={(record: any) => translateListType(record.type)}
             sortable={false}
           />
           <FunctionField
             source="status"
             label="Status"
-            render={record => translateListStatus(record.status)}
+            render={(record: any) => translateListStatus(record.status)}
             sortable={false}
           />
           <ActionToolBar>

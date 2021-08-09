@@ -35,7 +35,7 @@ const ProductsShow: React.FC<ShowProps> = props => {
       actions={<ProductShowActions />}
       title={
         <CrudTitle
-          contentWithRecord={record => {
+          contentWithRecord={(record:any) => {
             return record.name
           }}
         />

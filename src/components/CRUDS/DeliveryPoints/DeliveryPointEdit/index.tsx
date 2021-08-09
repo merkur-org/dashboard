@@ -18,7 +18,7 @@ import { MdArrowBack } from 'react-icons/md'
 
 import axios from 'axios'
 import { MapContainer, TileLayer, useMap } from 'react-leaflet'
-import { LatLngTuple } from 'leaflet'
+import { LatLngExpression, LatLngTuple } from 'leaflet'
 import AddMarker from '../../../UI/AddMarker'
 import PositionInputField from '../../../Dashboard/PositionInputField'
 import api from '../../../../services/api'
@@ -32,7 +32,7 @@ interface UFProps {
 
 const DeliveryPointEdit: React.FC<EditProps> = props => {
   const [ufs, setUfs] = useState<UFProps[]>()
-  const [selectedPosition, setSelectedPosition] = useState<LatLngTuple>([0, 0])
+  const [selectedPosition, setSelectedPosition] = useState<any>([0, 0])
 
   useEffect(() => {
     async function fetchLatLng() {
@@ -52,7 +52,7 @@ const DeliveryPointEdit: React.FC<EditProps> = props => {
 
       console.log(data)
 
-      const states = data.map(uf => {
+      const states = data.map((uf: any) => {
         return {
           id: uf.sigla,
           name: uf.sigla
@@ -64,7 +64,12 @@ const DeliveryPointEdit: React.FC<EditProps> = props => {
     fetchUfs()
   }, [])
 
-  function ChangeView({ center, zoom }) {
+  interface IChangeView {
+    center: LatLngExpression
+    zoom?: number
+  }
+
+  function ChangeView({ center, zoom }: IChangeView) {
     const map = useMap()
     map.setView(center, zoom)
     return null

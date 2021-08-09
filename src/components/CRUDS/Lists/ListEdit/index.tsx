@@ -38,7 +38,7 @@ const ListEdit: React.FC<EditProps> = props => {
       {...props}
       title={
         <CrudTitle
-          contentWithRecord={record => `Editar lista de ${formatDate(
+          contentWithRecord={(record: any) => `Editar lista de ${formatDate(
             record.start_date
           )} à
             ${formatDate(record.end_date)}`}
@@ -52,7 +52,7 @@ const ListEdit: React.FC<EditProps> = props => {
       mutationMode="pessimistic"
     >
       <Form
-        validate={values => {
+        validate={(values: any) => {
           const errors = {} as any
 
           if (values['start_date'] && values['end_date']) {
@@ -68,7 +68,7 @@ const ListEdit: React.FC<EditProps> = props => {
 
           return errors
         }}
-        initialValues={values => {
+        initialValues={(values: any) => {
           setListType(values.type)
         }}
       >
@@ -90,7 +90,7 @@ const ListEdit: React.FC<EditProps> = props => {
           onChange={handleSetListType}
           validate={[required()]}
         />
-        <ClearProducts state={listType} />
+        <ClearProducts state={String(listType)} />
         <ArrayInput label="Produtos" source="details" validate={[required()]}>
           <SimpleFormIterator>
             <ReferenceInput

@@ -44,7 +44,7 @@ const ListShow: React.FC<ShowProps> = props => {
       actions={<ProductShowActions />}
       title={
         <CrudTitle
-          contentWithRecord={record =>
+          contentWithRecord={(record: any) =>
             `Lista de ${formatDate(record.start_date)} à ${formatDate(
               record.end_date
             )}`
@@ -67,7 +67,7 @@ const ListShow: React.FC<ShowProps> = props => {
           <FunctionField
             source="type"
             label="Tipo"
-            render={record => {
+            render={(record: any) => {
               setListType(record.type)
               return translateListType(record.type)
             }}
@@ -76,7 +76,7 @@ const ListShow: React.FC<ShowProps> = props => {
           <FunctionField
             source="status"
             label="Status"
-            render={record => translateListStatus(record.status)}
+            render={(record: any) => translateListStatus(record.status)}
             sortable={false}
           />
         </ShowData>

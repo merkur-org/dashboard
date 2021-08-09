@@ -21,7 +21,7 @@ const DeliveryPointShow: React.FC<ShowProps> = props => {
       actions={<DeliveryPointShowActions />}
       title={
         <CrudTitle
-          contentWithRecord={record => {
+          contentWithRecord={(record: any) => {
             return 'Ponto de entrega'
           }}
         />
