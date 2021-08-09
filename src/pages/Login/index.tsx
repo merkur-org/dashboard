@@ -39,7 +39,7 @@ const LoginPage: React.FC = () => {
 
   const [emailSelected, setEmailSelected] = useState(true)
   const [cpfSelected, setCpfSelected] = useState(false)
-  const [errors, setErrors] = useState()
+  const [errors, setErrors] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
@@ -53,17 +53,15 @@ const LoginPage: React.FC = () => {
         formData,
         formRef as React.MutableRefObject<FormHandles>
       ) // validar o formulário
-      if (data) {
+      if (Object.keys(data).length > 0) {
         setIsLoading(true)
 
         await login(data)
         history.push('/')
       }
     } catch (err) {
-      if (formRef) {
-        formRef?.current?.setErrors(err)
-        setErrors(err)
-      }
+      formRef?.current?.setErrors(err)
+      setErrors(err)
       setIsLoading(false)
     }
   }, [])
@@ -148,7 +146,7 @@ const LoginPage: React.FC = () => {
         <ModalMessage
           message="Ocorreu um erro tente novamente"
           type="error"
-          open={!!errors}
+          open={errors}
         />
       )}
     </>

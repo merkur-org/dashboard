@@ -12,7 +12,7 @@ const CrudTitle: React.FC<CrudTitleProps> = ({
   record,
   contentWithRecord
 }) => {
-  return <span>{contentWithRecord(record) || content}</span>
+  return <span>{contentWithRecord ? contentWithRecord(record) : content}</span>
 }
 
 export default CrudTitle
