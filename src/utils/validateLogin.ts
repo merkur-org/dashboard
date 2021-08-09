@@ -63,6 +63,8 @@ const validateLogin = async (
     return data
   } catch (error) {
     if (error instanceof Yup.ValidationError) {
+      console.log(error)
+
       const errors = getValidationErrors(error)
 
       formRef.current?.setErrors(errors)
