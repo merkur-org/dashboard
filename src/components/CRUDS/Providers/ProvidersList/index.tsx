@@ -50,9 +50,9 @@ const ProvidersList: React.FC<ListProps> = props => {
     >
       {isSmall ? (
         <SimpleList
-          primaryText={(record:any) => record.name}
-          secondaryText={(record:any) => record.phone}
-          tertiaryText={(record:any) => record.cnpj}
+          primaryText={(record: any) => record.name}
+          secondaryText={(record: any) => record.phone}
+          tertiaryText={(record: any) => record.cnpj}
         />
       ) : (
         <Datagrid rowClick="edit" optimized>

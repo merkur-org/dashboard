@@ -30,7 +30,7 @@ const ProvidersEdit: React.FC<EditProps> = props => {
       {...props}
       title={
         <CrudTitle
-          contentWithRecord={(record:any) => {
+          contentWithRecord={(record: any) => {
             return `Editar fornecedor ${record.name}`
           }}
         />
