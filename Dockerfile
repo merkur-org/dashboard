@@ -2,9 +2,9 @@ FROM node:14-alpine AS BUILD_IMAGE
 
 WORKDIR /app
 
-COPY package.json yarn.* ./
+COPY package.json yarn.* tsconfig.json ./
 
-RUN yarn install --production
+RUN yarn install
 
 COPY src/ ./src/
 COPY public/ ./public/

@@ -24,7 +24,7 @@ import { translateSalesType } from '../../../../utils/translate/translateSalesTy
 
 import { DetailsContainer, Detail } from './styles'
 
-const OrderExpandPanel = ({ isSmall, ...props }) => {
+const OrderExpandPanel = ({ isSmall, ...props }: any) => {
   const { record } = props
 
   return (
@@ -66,7 +66,7 @@ const OrderExpandPanel = ({ isSmall, ...props }) => {
           <TextField label="Desconto" source="discount" />
           <FunctionField
             label="Total"
-            render={record =>
+            render={(record: any) =>
               `${record.quantity * record.unit_price * (1 - record.discount)}`
             }
           />
@@ -76,7 +76,7 @@ const OrderExpandPanel = ({ isSmall, ...props }) => {
   )
 }
 
-const OrdersFilter = props => {
+const OrdersFilter = (props: any) => {
   return (
     <Filter {...props}>
       <DateInput label="Procurar" source="date" alwaysOn placeholder="" />
@@ -160,7 +160,7 @@ const OrdersList: React.FC<ListProps> = props => {
         <FunctionField
           source="final_value"
           label="Valor final"
-          render={record => (
+          render={(record: any) => (
             <strong>R$ {record.final_value.toFixed(2)} </strong>
           )}
           sortable={false}

@@ -35,7 +35,7 @@ const ProductEdit: React.FC<EditProps> = props => {
       {...props}
       title={
         <CrudTitle
-          contentWithRecord={record => `Editar produto ${record.name}`}
+          contentWithRecord={(record:any) => `Editar produto ${record.name}`}
         />
       }
       actions={

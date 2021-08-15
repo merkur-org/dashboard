@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, SetStateAction } from 'react'
 import {
   Create,
   TextInput,
@@ -13,7 +13,7 @@ import ActionToolbar from '../../../Dashboard/ActionToolBar'
 
 import { MdArrowBack } from 'react-icons/md'
 import axios from 'axios'
-import { LatLngTuple } from 'leaflet'
+import { LatLngExpression, LatLngTuple } from 'leaflet'
 import { MapContainer, TileLayer } from 'react-leaflet'
 
 import AddMarker from '../../../UI/AddMarker'
@@ -28,7 +28,7 @@ interface UFProps {
 
 const DeliveryPointCreate: React.FC<CreateProps> = props => {
   const [ufs, setUfs] = useState<UFProps[]>()
-  const [selectedPosition, setSelectedPosition] = useState<LatLngTuple>([
+  const [selectedPosition, setSelectedPosition] = useState<any>([
     -26.2167164, -52.666736
   ])
   const [initialPosition] = useState<LatLngTuple>([-26.2167164, -52.666736])
@@ -39,7 +39,7 @@ const DeliveryPointCreate: React.FC<CreateProps> = props => {
         'https://servicodados.ibge.gov.br/api/v1/localidades/estados'
       )
 
-      const states = data.map(uf => {
+      const states = data.map((uf: any) => {
         return {
           id: uf.sigla,
           name: uf.sigla
@@ -64,7 +64,7 @@ const DeliveryPointCreate: React.FC<CreateProps> = props => {
         options={{ position: selectedPosition }}
       >
         <Form
-          validate={values => {
+          validate={(values: any) => {
             const errors = {} as any
             ;['city', 'state', 'suburb', 'street', 'number', 'cep'].forEach(
               field => {

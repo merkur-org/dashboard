@@ -31,9 +31,9 @@ const DeliveryPointsList: React.FC<ListProps> = props => {
     >
       {isSmall ? (
         <SimpleList
-          primaryText={record => record.city}
-          secondaryText={record => record.state}
-          tertiaryText={record => record.cep}
+          primaryText={(record:any) => record.city}
+          secondaryText={(record:any) => record.state}
+          tertiaryText={(record:any) => record.cep}
         />
       ) : (
         <Datagrid rowClick="edit">

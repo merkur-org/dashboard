@@ -39,7 +39,7 @@ const ListCreate: React.FC<CreateProps> = props => {
         }
       >
         <Form
-          validate={values => {
+          validate={(values: any) => {
             const errors = {} as any
 
             if (values['start_date'] && values['end_date']) {
