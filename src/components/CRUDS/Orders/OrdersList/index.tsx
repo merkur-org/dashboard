@@ -9,6 +9,9 @@ import {
   TextInput,
   DateInput
 } from 'ra-ui-materialui'
+// in PostList.js
+import { downloadCSV } from 'react-admin'
+import jsonExport from 'jsonexport/dist'
 import { useMediaQuery } from '@material-ui/core'
 import { Theme } from '@material-ui/core/styles'
 import { ArrayField, BulkExportButton, Filter, ListProps } from 'react-admin'
@@ -81,6 +84,23 @@ const OrdersFilter = (props: any) => {
     <Filter {...props}>
       <DateInput label="Procurar" source="date" alwaysOn placeholder="" />
     </Filter>
+  )
+}
+
+const exporter = posts => {
+  const postsForExport = posts.map(post => {
+    const { backlinks, author, ...postForExport } = post // omit backlinks and author
+    postForExport.author_name = post.author.name // add a field
+    return postForExport
+  })
+  jsonExport(
+    postsForExport,
+    {
+      headers: ['id', 'title', 'author_name', 'body'] // order fields in the export
+    },
+    (err, csv) => {
+      downloadCSV(csv, 'posts') // download as 'posts.csv` file
+    }
   )
 }
 
