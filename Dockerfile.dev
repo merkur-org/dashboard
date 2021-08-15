@@ -1,0 +1,19 @@
+FROM node:lts-alpine
+
+RUN mkdir -p /home/node/dash/node_modules && chown -R node:node /home/node/dash
+
+WORKDIR /home/node/dash
+
+ENV PATH /home/node/dash/node_modules/.bin:$PATH
+
+COPY package.json yarn.* ./
+
+USER node
+
+RUN yarn
+
+COPY --chown=node:node . .
+
+EXPOSE 3000
+
+CMD ["yarn", "start"]

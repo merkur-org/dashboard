@@ -43,7 +43,7 @@ const ProvidersShow: React.FC<ShowProps> = props => {
       actions={<ProvidersShowActions />}
       title={
         <CrudTitle
-          contentWithRecord={(record:any) => {
+          contentWithRecord={(record: any) => {
             return record.name
           }}
         />
