@@ -74,6 +74,16 @@ const ListCreate: React.FC<CreateProps> = props => {
             onChange={handleSetListType}
             validate={[required()]}
           />
+          <ReferenceInput
+            source="provider"
+            reference="users"
+            label="Fornecedor"
+            filterToQuery={() => {
+              return { role: 'p' }
+            }}
+          >
+            <SelectInput optionText="name" validate={[required()]} />
+          </ReferenceInput>
           {listType && (
             <>
               <ClearProducts state={listType} />

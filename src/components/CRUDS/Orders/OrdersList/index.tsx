@@ -10,7 +10,7 @@ import {
   DateInput
 } from 'ra-ui-materialui'
 // in PostList.js
-import { downloadCSV, Exporter } from 'react-admin'
+import { DateTimeInput, downloadCSV, Exporter } from 'react-admin'
 import jsonExport from 'jsonexport/dist'
 import { useMediaQuery } from '@material-ui/core'
 import { Theme } from '@material-ui/core/styles'
@@ -84,7 +84,13 @@ const OrderExpandPanel = ({ isSmall, ...props }: any) => {
 const OrdersFilter = (props: any) => {
   return (
     <Filter {...props}>
-      <DateInput label="Procurar" source="date" alwaysOn placeholder="" />
+      <DateInput
+        label="Data inicial"
+        source="start_date"
+        alwaysOn
+        placeholder=""
+      />
+      <DateInput label="Data final" source="end_date" alwaysOn placeholder="" />
     </Filter>
   )
 }
