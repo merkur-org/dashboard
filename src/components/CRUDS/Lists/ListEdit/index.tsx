@@ -90,6 +90,20 @@ const ListEdit: React.FC<EditProps> = props => {
           onChange={handleSetListType}
           validate={[required()]}
         />
+        <ReferenceInput
+          source="producer_id"
+          reference="users"
+          label="Fornecedor"
+          filterToQuery={() => {
+            return { role: 'p' }
+          }}
+        >
+          <SelectInput
+            source="user_id"
+            optionText="name"
+            validate={[required()]}
+          />
+        </ReferenceInput>
         <ClearProducts state={String(listType)} />
         <ArrayInput label="Produtos" source="details" validate={[required()]}>
           <SimpleFormIterator>

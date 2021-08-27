@@ -129,6 +129,8 @@ const customDataProvider = (
       case 'lists': {
         const formData = Object.assign({ status: 'created' }, params.data)
 
+        console.log(formData)
+
         const { data } = await api.post(`/${resource}`, formData, {
           headers: { Authorization: `Bearer ${token}` }
         })

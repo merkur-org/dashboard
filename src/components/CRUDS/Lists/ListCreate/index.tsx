@@ -75,14 +75,18 @@ const ListCreate: React.FC<CreateProps> = props => {
             validate={[required()]}
           />
           <ReferenceInput
-            source="provider"
+            source="producer_id"
             reference="users"
             label="Fornecedor"
             filterToQuery={() => {
               return { role: 'p' }
             }}
           >
-            <SelectInput optionText="name" validate={[required()]} />
+            <SelectInput
+              source="user_id"
+              optionText="name"
+              validate={[required()]}
+            />
           </ReferenceInput>
           {listType && (
             <>
@@ -130,16 +134,6 @@ const ListCreate: React.FC<CreateProps> = props => {
                       min={0}
                       validate={[required()]}
                     />
-                  )}
-                  {listType === 'producer' && (
-                    <ReferenceInput
-                      source="name"
-                      reference="users"
-                      filter={{ role: 'p' }}
-                      label="Fornecedor"
-                    >
-                      <SelectInput optionText="name" validate={[required()]} />
-                    </ReferenceInput>
                   )}
                   {listType === 'producer' && (
                     <DateInput
