@@ -17,8 +17,6 @@ const customDataProvider = (
 
     const filters = buildQuery(filter)
 
-    console.log(params, filters)
-
     const { data } = await api.get(
       `/${resource}?page=${page}&limit=${perPage}${
         filters.length !== 0 ? filters : ''
@@ -131,12 +129,17 @@ const customDataProvider = (
       case 'lists': {
         const formData = Object.assign({ status: 'created' }, params.data)
 
+        console.log(formData)
+
         const { data } = await api.post(`/${resource}`, formData, {
           headers: { Authorization: `Bearer ${token}` }
         })
 
         return {
-          data
+          data: {
+            id: data.id,
+            ...data
+          }
         }
       }
 
@@ -146,7 +149,6 @@ const customDataProvider = (
 
         let formData = Object.assign({ role: 'p' }, params.data)
 
-        console.log(formData)
         const { data } = await api.post(`/${resource}`, formData, {
           headers: { Authorization: `Bearer ${token}` }
         })

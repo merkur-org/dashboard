@@ -99,6 +99,11 @@ const ListsList: React.FC<ListProps> = props => {
             render={(record: any) => translateListStatus(record.status)}
             sortable={false}
           />
+          <FunctionField
+            source="producer"
+            label="Fornecedor"
+            render={(record: any) => record.producer.name}
+          />
           <ActionToolBar>
             <EditButton label="Editar Lista" />
             <ShowButton label="Ver detalhes" />

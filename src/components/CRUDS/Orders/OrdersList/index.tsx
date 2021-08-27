@@ -10,7 +10,7 @@ import {
   DateInput
 } from 'ra-ui-materialui'
 // in PostList.js
-import { downloadCSV } from 'react-admin'
+import { DateTimeInput, downloadCSV, Exporter } from 'react-admin'
 import jsonExport from 'jsonexport/dist'
 import { useMediaQuery } from '@material-ui/core'
 import { Theme } from '@material-ui/core/styles'
@@ -24,8 +24,10 @@ import BulkActionButtons from '../../../Dashboard/BulkActionButtons'
 import { translatePaymentType } from '../../../../utils/translate/translatePaymentType'
 import { translatePaymentStatus } from '../../../../utils/translate/translatePaymentStatus'
 import { translateSalesType } from '../../../../utils/translate/translateSalesType'
+import formatDate from '../../../../utils/formatDate'
 
 import { DetailsContainer, Detail } from './styles'
+import serializeDeliveryPoint from '../../../../utils/serializeDeliveryPoint'
 
 const OrderExpandPanel = ({ isSmall, ...props }: any) => {
   const { record } = props
@@ -82,26 +84,115 @@ const OrderExpandPanel = ({ isSmall, ...props }: any) => {
 const OrdersFilter = (props: any) => {
   return (
     <Filter {...props}>
-      <DateInput label="Procurar" source="date" alwaysOn placeholder="" />
+      <DateInput
+        label="Data inicial"
+        source="start_date"
+        alwaysOn
+        placeholder=""
+      />
+      <DateInput label="Data final" source="end_date" alwaysOn placeholder="" />
     </Filter>
   )
 }
 
-const exporter = posts => {
-  const postsForExport = posts.map(post => {
-    const { backlinks, author, ...postForExport } = post // omit backlinks and author
-    postForExport.author_name = post.author.name // add a field
-    return postForExport
+const exportOrders: Exporter = async (
+  records,
+  fetchRelatedRecords,
+  dataProvider
+) => {
+  Promise.all(
+    records.map(async record => {
+      const {
+        payment_status,
+        id,
+        delivery_point_id,
+        created_at,
+        details,
+        updated_at,
+        list_id,
+        user_id,
+        ...ordersForExport
+      } = record
+
+      ordersForExport.delivery_point = await serializeDeliveryPoint(
+        delivery_point_id
+      )
+
+      ordersForExport.payment_type = translatePaymentType(
+        ordersForExport.payment_type
+      )
+
+      ordersForExport.sales_type = translateSalesType(
+        ordersForExport.sales_type
+      )
+
+      ordersForExport.date = formatDate(ordersForExport.date)
+
+      const user = await dataProvider.getOne('users', { id: user_id })
+      ordersForExport.user = user.data.name
+
+      Promise.all(
+        details.map(async details => {
+          const {
+            created_at,
+            updated_at,
+            id,
+            order_id,
+            product_id,
+            ...detailsToExport
+          } = details
+
+          const product = await dataProvider.getOne('products', {
+            id: product_id
+          })
+
+          detailsToExport.user = user.data.name
+
+          detailsToExport.product = product.data.name
+          return detailsToExport
+        })
+      ).then(res => {
+        jsonExport(
+          res,
+          {
+            headers: ['product', 'quantity', 'discount', 'unit_price'],
+            rename: ['Produto', 'Quantidade', 'Desconto', 'Preço unitário']
+          },
+          (err, csv) => {
+            downloadCSV(csv, 'Detalhes do pedido')
+          }
+        )
+      })
+      return ordersForExport
+    })
+  ).then(res => {
+    jsonExport(
+      res,
+      {
+        headers: [
+          'user',
+          'delivery_point',
+          'date',
+          'payment_type',
+          'sales_type',
+          'value',
+          'final_value'
+        ],
+        rename: [
+          'Cliente',
+          'Ponto de entrega',
+          'Data do pedido',
+          'Tipo de pagamento',
+          'Tipo de compra',
+          'Valor',
+          'Valor final'
+        ]
+      },
+      (err, csv) => {
+        downloadCSV(csv, 'Pedidos')
+      }
+    )
   })
-  jsonExport(
-    postsForExport,
-    {
-      headers: ['id', 'title', 'author_name', 'body'] // order fields in the export
-    },
-    (err, csv) => {
-      downloadCSV(csv, 'posts') // download as 'posts.csv` file
-    }
-  )
 }
 
 const OrdersList: React.FC<ListProps> = props => {
@@ -115,6 +206,7 @@ const OrdersList: React.FC<ListProps> = props => {
           <BulkExportButton />
         </BulkActionButtons>
       }
+      exporter={exportOrders}
       {...props}
     >
       <Datagrid expand={<OrderExpandPanel isSmall={isSmall} />}>

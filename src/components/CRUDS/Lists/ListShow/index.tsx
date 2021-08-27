@@ -79,6 +79,11 @@ const ListShow: React.FC<ShowProps> = props => {
             render={(record: any) => translateListStatus(record.status)}
             sortable={false}
           />
+          <FunctionField
+            source="producer"
+            label="Fornecedor"
+            render={(record: any) => record.producer.name}
+          />
         </ShowData>
         <ArrayField source="details">
           <Datagrid>
